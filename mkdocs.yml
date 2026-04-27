@@ -97,3 +97,4 @@ nav:
       - checklists/index.md
       - Red flags audit: checklists/red-flags.md
       - Deployment readiness: checklists/deployment-readiness.md
+  - Scan kit: scan-kit/index.md

@@ -22,6 +22,8 @@ This site is opinionated. By "opinionated" we mean what the term means in softwa
 
 [**Checklists**](checklists/index.md): the red-flags audit and deployment-readiness checklist. Use them directly in design reviews, vendor evaluations, and procurement.
 
+[**Scan kit**](scan-kit/index.md): downloadable files (`AGENTS.md` / `CLAUDE.md` and a runnable audit prompt) you can drop into your own clinical-AI repo. Tool-agnostic, works with Claude Code, Codex, Cursor, Aider, and others.
+
 ---
 
 ## What this site is not

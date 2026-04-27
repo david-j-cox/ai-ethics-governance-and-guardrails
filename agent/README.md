@@ -15,13 +15,39 @@ This is "eat your own dog food": the site warns that AI-generated content needs 
 
 ## Status
 
-**Stub only.** The scaffolding (config, source list, workflow, entrypoint shape) is here. The actual fetch / diff / LLM-prompt / PR-open logic is left as the next implementation step. Wiring this up requires:
+Implemented. Runs as a GitHub Action on a weekly cron and on manual dispatch (see `.github/workflows/monitor.yml`).
 
-- An Anthropic API key (or other LLM provider) stored as a repo secret.
-- A GitHub token with `pull-request: write` scope.
-- Decision on whether to run as a GH Action (simplest) or a small server (more control).
+## Setup
 
-The default plan is GH Action — see `.github/workflows/monitor.yml`.
+Two secrets are required in the repo's GitHub Actions configuration (Settings → Secrets and variables → Actions):
+
+- `ANTHROPIC_API_KEY`: an Anthropic API key. The agent uses Claude Opus 4.7 with adaptive thinking and prompt caching. Most weeks no source has changed, so no LLM calls are made; weeks with changes typically use a few thousand input tokens per changed source.
+- `GITHUB_TOKEN`: provided automatically by Actions; no manual setup required. The repo's workflow permissions must allow read/write and PR creation (Settings → Actions → General → Workflow permissions).
+
+No other configuration is needed. The agent commits to a fresh branch (`agent/source-update-YYYY-MM-DD-HHMM`), pushes, and opens a single PR labeled `agent` and `source-monitor`.
+
+## Local dry run
+
+```sh
+cd agent
+pip install -r requirements.txt
+ANTHROPIC_API_KEY=... python monitor.py
+```
+
+Without `ANTHROPIC_API_KEY` set, the agent will still fetch and update `state.json` for any source whose hash hasn't changed, but it will exit with code 1 if it detects any changed sources.
+
+## What the agent does on each run
+
+1. Loads source definitions from `sources/*.yaml`.
+2. Fetches each source over HTTPS with a 30-second timeout. For `html` sources, runs trafilatura to extract main content. For `link-check` sources, just verifies the URL resolves.
+3. Hashes the extracted content. Compares to the last-known hash stored in `state.json`.
+4. For changed `html` sources, calls Claude Opus 4.7 once per changed source. The system prompt is cached, and each affected page is sent as a separately-cached content block. Subsequent runs against the same diff are near-free.
+5. Claude returns structured JSON: a 2-3 sentence summary and a list of proposed edits (`replace`, `append`, or `no-edit`). Edits are conservative find/replace patches, not rewrites.
+6. The agent applies edits where the `find` string is unambiguous; ambiguous or missing matches are reported to the PR body for human attention.
+7. Updates `state.json` with new content hashes and timestamps for every source successfully fetched, including unchanged ones.
+8. If anything changed, commits to a fresh branch and opens one PR.
+
+Fetch failures are logged and skipped; the next run retries from the same baseline. Network blips don't poison state.
 
 ## Source list philosophy
 
