@@ -10,9 +10,9 @@ This site is opinionated. By "opinionated" we mean what the term means in softwa
 
 [**Foundations**](foundations/index.md): who this is for, principles we treat as load-bearing, and how to use the site.
 
-[**Architecture**](architecture/index.md): the technical patterns: HIPAA-eligible deployment, RAG over patient records, grounding and hallucination mitigation, structured output, audit trails.
+[**Architecture**](architecture/index.md): the technical patterns. HIPAA-eligible deployment, RAG over patient records, grounding and hallucination mitigation, structured output, audit trails, and agentic systems (planning loops, tool use, managed agent platforms).
 
-[**Evaluation**](evaluation/index.md): how to actually measure whether your system is safe and useful. Methodology, subgroup/bias evaluation, ongoing monitoring, red-teaming.
+[**Evaluation**](evaluation/index.md): how to actually measure whether your system is safe and useful. Methodology, subgroup/bias evaluation, ongoing monitoring, red-teaming, and the minimum criteria plus rollback plans you should commit to before deployment.
 
 [**Governance**](governance/index.md): clinician-in-the-loop design, what "training the model" really means in practice, informed consent, accountability and liability.
 
@@ -34,4 +34,9 @@ This site is opinionated. By "opinionated" we mean what the term means in softwa
 
 ## Status
 
-Version 0.1, under active development. The site is updated by a maintainer with PRs from a weekly source-monitoring agent. See the repo for contribution details.
+Version 0.1, under active development. The site is updated by a maintainer, with help from a weekly agent that runs two pipelines:
+
+- A source watch that hashes a curated list of regulatory, framework, and provider pages and proposes surgical edits when something substantive changes.
+- A research digest that reads RSS/Atom feeds (arXiv filtered to clinical LLM and AI ethics, behavior-analysis journals, JMIR AI, Nature Digital Medicine, AI Incident Database, Anthropic news) and triages new entries into a maintainer-facing pointer list.
+
+Both pipelines open pull requests and never auto-merge. See the [repo](https://github.com/david-j-cox/ai-ethics-governance-and-guardrails) for contribution details.
