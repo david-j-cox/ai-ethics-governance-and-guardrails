@@ -1,4 +1,40 @@
 {
+  "ai-incident-database": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "31ff76fc-781e-5d0d-a950-9212ace0295c",
+      "1900bbd5-6df9-58a6-b888-9214832c4c1c",
+      "2bc01388-01fa-5543-b4a9-76890ad39e18",
+      "6fef33da-5175-5960-bae2-082affea522d",
+      "75ac7246-cbbc-5fcf-94a2-21926971a2cd",
+      "0f8e1b8e-f27f-5d5c-8cc0-8bf37d975865",
+      "00f39d29-d202-5d69-a803-b513c8d59d96",
+      "f802091a-6d6f-54bb-a0ae-5780fc0e3396",
+      "7722ecad-1cda-5fbb-9220-c3b3d1138f66",
+      "61c98179-ba5d-510d-a56f-302db20b6f30",
+      "7f0efef5-8777-5da2-b0b6-a4f0f898f518",
+      "6aa1be44-59d9-5edb-a75f-1eab05c6fe44",
+      "6aa5ae77-f6e4-5e48-84bd-65a023f1d25c",
+      "e68d52b4-8594-518a-985b-d8d70177bebd",
+      "f9d72f54-83a9-5fbd-8974-0dfb68d5ac6c",
+      "5002e48c-d806-54ef-b6cc-2da80c318318",
+      "a4421b0b-b883-58ad-b70b-301a06fd5613",
+      "02e2890f-e32d-5476-8526-45fa3e4339d1",
+      "22d688ef-578f-57fb-ac31-ec6c21b4583d",
+      "d76b86ad-bb29-582e-b8a0-acdbd23d3306",
+      "c2c16641-d8d1-5d10-b85f-ea081dafa0aa",
+      "9dfc762c-121b-5776-808e-b4d990dd86ec",
+      "1db5bd3a-d68a-5e05-bd75-24109c8a22c7",
+      "e24f3556-b75b-55d5-b0e9-d56cedfac496",
+      "9799477d-70b9-5c0b-9bbb-29b06bf022f9",
+      "d4f56cb1-959d-56c6-af3c-6adf79153f2a",
+      "d1df8dc1-96f8-5d9c-a958-b91926fb884c",
+      "8b055622-d0d6-5f34-9b21-b1a53fe66c8a",
+      "7ea5e3a5-7f82-532f-9838-79bd442642b3",
+      "6b2bb11b-cd19-5cb8-98f3-3d3910ee1290"
+    ],
+    "url": "https://incidentdatabase.ai/rss.xml"
+  },
   "aic-aba-guidelines": {
     "content_hash": "f6a3d40751d9027f84788764828075ed6e08682ee2f88369422eaa94c94759fc",
     "last_checked": "2026-04-27T16:15:24.667533+00:00",
@@ -10,6 +46,68 @@
     "last_checked": "2026-04-27T16:15:24.667533+00:00",
     "snapshot": "Skip to main content\nAPI Docs\nRelease Notes\nContact Support\nEnglish\nFran\u00e7ais\nDeutsch\nBahasa Indonesia\nItaliano\n\u65e5\u672c\u8a9e\n\ud55c\uad6d\uc5b4\nPortugu\u00eas\nP\u0443\u0441\u0441\u043a\u0438\u0439\n\u7b80\u4f53\u4e2d\u6587\nEspa\u00f1ol\n\u7e41\u9ad4\u4e2d\u6587\nEnglish\nAPI Docs\nRelease Notes\nContact Support\nEnglish\nFran\u00e7ais\nDeutsch\nBahasa Indonesia\nItaliano\n\u65e5\u672c\u8a9e\n\ud55c\uad6d\uc5b4\nPortugu\u00eas\nP\u0443\u0441\u0441\u043a\u0438\u0439\n\u7b80\u4f53\u4e2d\u6587\nEspa\u00f1ol\n\u7e41\u9ad4\u4e2d\u6587\nEnglish\nAnthropic Privacy Center\nSearch for articles...\nCommercial Customers\nAPI, Console, Team & Enterprise plans\n28 articles\nConsumers\nClaude Free, Pro & Max plans\n26 articles",
     "url": "https://privacy.anthropic.com/"
+  },
+  "arxiv-cs-cl-clinical-llm": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "http://arxiv.org/abs/2604.20051v1",
+      "http://arxiv.org/abs/2604.20331v2",
+      "http://arxiv.org/abs/2604.17282v1",
+      "http://arxiv.org/abs/2604.22325v1",
+      "http://arxiv.org/abs/2604.22067v1",
+      "http://arxiv.org/abs/2604.17316v1",
+      "http://arxiv.org/abs/2604.19598v2",
+      "http://arxiv.org/abs/2604.17988v1",
+      "http://arxiv.org/abs/2604.21082v1",
+      "http://arxiv.org/abs/2604.17725v1",
+      "http://arxiv.org/abs/2604.17340v1",
+      "http://arxiv.org/abs/2604.20983v1",
+      "http://arxiv.org/abs/2604.21421v1",
+      "http://arxiv.org/abs/2604.20531v1",
+      "http://arxiv.org/abs/2604.17730v1",
+      "http://arxiv.org/abs/2604.22061v1",
+      "http://arxiv.org/abs/2604.19342v1",
+      "http://arxiv.org/abs/2604.17714v1",
+      "http://arxiv.org/abs/2604.19281v1",
+      "http://arxiv.org/abs/2604.17114v1",
+      "http://arxiv.org/abs/2604.21076v1",
+      "http://arxiv.org/abs/2604.19394v1",
+      "http://arxiv.org/abs/2604.22109v1",
+      "http://arxiv.org/abs/2604.18570v2",
+      "http://arxiv.org/abs/2604.20560v1",
+      "http://arxiv.org/abs/2604.20791v1",
+      "http://arxiv.org/abs/2604.20022v1",
+      "http://arxiv.org/abs/2604.21070v1",
+      "http://arxiv.org/abs/2604.17707v1",
+      "http://arxiv.org/abs/2604.19412v1"
+    ],
+    "url": "http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare+OR+abs:patient%29+AND+%28abs:LLM+OR+abs:%22language+model%22+OR+abs:generation%29&sortBy=submittedDate&sortOrder=descending&max_results=30"
+  },
+  "arxiv-cs-cy-clinical-ai-ethics": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "http://arxiv.org/abs/2604.16450v1",
+      "http://arxiv.org/abs/2603.30004v1",
+      "http://arxiv.org/abs/2604.15740v1",
+      "http://arxiv.org/abs/2604.14881v1",
+      "http://arxiv.org/abs/2603.19527v1",
+      "http://arxiv.org/abs/2603.22322v1",
+      "http://arxiv.org/abs/2604.10658v1",
+      "http://arxiv.org/abs/2604.07424v1",
+      "http://arxiv.org/abs/2603.21656v1",
+      "http://arxiv.org/abs/2604.10833v1",
+      "http://arxiv.org/abs/2604.20869v1",
+      "http://arxiv.org/abs/2604.18038v1",
+      "http://arxiv.org/abs/2603.26324v1",
+      "http://arxiv.org/abs/2604.11499v2",
+      "http://arxiv.org/abs/2604.08217v1",
+      "http://arxiv.org/abs/2604.04604v1",
+      "http://arxiv.org/abs/2604.00186v1",
+      "http://arxiv.org/abs/2604.13767v1",
+      "http://arxiv.org/abs/2604.20871v1",
+      "http://arxiv.org/abs/2604.00081v1"
+    ],
+    "url": "http://export.arxiv.org/api/query?search_query=cat:cs.CY+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare%29+AND+%28abs:AI+OR+abs:%22machine+learning%22%29&sortBy=submittedDate&sortOrder=descending&max_results=20"
   },
   "asan": {
     "content_hash": "f10d1619c25d87402cf99f46cb39145169fb54d876e0236102285e933aa45907",
@@ -28,6 +126,32 @@
     "last_checked": "2026-04-27T16:15:24.667533+00:00",
     "snapshot": "Welcome! With a focus on consumer protection, the BACB Ethics Department disseminates information about ethics requirements and processes notices of alleged violation. Please click the relevant button below to access specific ethics content. The following information and resources are updated regularly.\nThe BACB cannot provide legal or ethics advice under any circumstances. There are a number of resources available for anyone seeking guidance related to ethics in the Ethics Resources section. U.S. residents of states that regulate the practice of behavior analysis may contact their state disciplinary boards. For more information about regulation in the U.S., the Association of Professional Behavior Analysts has a resource page on licensure and regulation. Whenever possible, we encourage, but do not require you to consult with a behavior analyst who specializes in the matter before filing a Notice of Alleged Violation. For legal advice, please consult with a licensed attorney in your jurisdiction. For additional guidance on ethics-related matters, please see the Ethics Codes section.",
     "url": "https://www.bacb.com/ethics-information/"
+  },
+  "behavior-analysis-in-practice": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "https://link.springer.com/10.1007/s40617-026-01172-2",
+      "https://link.springer.com/10.1007/s40617-026-01156-2",
+      "https://link.springer.com/10.1007/s40617-026-01159-z",
+      "https://link.springer.com/10.1007/s40617-025-01140-2",
+      "https://link.springer.com/10.1007/s40617-026-01162-4",
+      "https://link.springer.com/10.1007/s40617-026-01173-1",
+      "https://link.springer.com/10.1007/s40617-026-01168-y",
+      "https://link.springer.com/10.1007/s40617-026-01165-1",
+      "https://link.springer.com/10.1007/s40617-026-01180-2",
+      "https://link.springer.com/10.1007/s40617-026-01161-5",
+      "https://link.springer.com/10.1007/s40617-026-01182-0",
+      "https://link.springer.com/10.1007/s40617-026-01170-4",
+      "https://link.springer.com/10.1007/s40617-026-01160-6",
+      "https://link.springer.com/10.1007/s40617-026-01175-z",
+      "https://link.springer.com/10.1007/s40617-026-01167-z",
+      "https://link.springer.com/10.1007/s40617-025-01152-y",
+      "https://link.springer.com/10.1007/s40617-026-01176-y",
+      "https://link.springer.com/10.1007/s40617-026-01174-0",
+      "https://link.springer.com/10.1007/s40617-026-01171-3",
+      "https://link.springer.com/10.1007/s40617-026-01166-0"
+    ],
+    "url": "https://link.springer.com/search.rss?facet-content-type=Article&facet-journal-id=40617&channel-name=Behavior+Analysis+in+Practice"
   },
   "bhcoe": {
     "content_hash": "3fe91afafbf5a329399eeeed4f64ffa06b090f9428ef330a094a5d58b6461961",
@@ -65,6 +189,36 @@
     "snapshot": "This guide covers HIPAA compliance on Google Cloud. HIPAA compliance for Google Workspace is covered separately.\nDisclaimer\nThis guide is for informational purposes only. Google does not intend the information or recommendations in this guide to constitute legal advice. Each customer is responsible for independently evaluating its own particular use of the services as appropriate to support its legal compliance obligations.\nIntended Audience\nFor customers who are subject to the requirements of the Health Insurance Portability and Accountability Act (known as HIPAA, as amended, including by the Health Information Technology for Economic and Clinical Health \u2014 HITECH \u2014 Act), Google Cloud supports HIPAA compliance. This guide is intended for security officers, compliance officers, IT administrators, and other employees who are responsible for HIPAA implementation and compliance on Google Cloud. After reading this guide, you will understand how Google is able to support HIPAA compliance as well as understand how to configure Google Cloud Projects to help meet your responsibilities under HIPAA.\nDefinitions\nAny capitalized terms used but not otherwise defined in this document have the same meaning as in HIPAA. Furthermore, for the purposes of this document, Protected Health Information (PHI) means the PHI Google receives from a Covered Entity.\nOverview\nIt is important to note that there is no certification recognized by the US HHS for HIPAA compliance and that complying with HIPAA is a shared responsibility between the customer and Google. Specifically, HIPAA demands compliance with the Security Rule, the Privacy Rule, and the Breach Notification Rule. Google Cloud supports HIPAA compliance (within the scope of a Business Associate Agreement) but ultimately customers are responsible for evaluating their own HIPAA compliance.\nGoogle will enter into Business Associate Agreements with customers as necessary under HIPAA. Google Cloud was built under the guidance of a more than 700 person security engineering team, which is larger than most on-premises security teams. Specific details on our approach to security and data protection including details on organizational and technical controls regarding how Google protects your data, can be found in the Google Security Whitepaper and Google Infrastructure Security Design Overview.\nIn addition to documenting our approach to security and privacy design, Google undergoes several independent third party audits on a regular basis to provide customers with external verification (reports and certificates are linked below). This means that an independent auditor has examined the controls present in our data centers, infrastructure and operations. Google has annual audits for the following standards:\n- SSAE 16 / ISAE 3402 Type II. Here is the associated public SOC 3 report. The SOC 2 report can be obtained under NDA.\n- ISO 27001. Google has earned ISO 27001 certifications for the systems, applications, people, technology, processes and data centers serving Google Cloud. Our ISO 27001 certificate is available on the compliance section of our website.\n- ISO 27017, Cloud Security. This is an international standard of practice for information security controls based on the ISO/IEC 27002 specifically for cloud services. Our ISO 27017 certificate is available on the compliance section of our website.\n- ISO 27018, Cloud Privacy. This is an international standard of practice for protection of personally identifiable information (PII) in public cloud services. Our ISO 27018 certificate is available on the compliance section of our website.\n- FedRAMP ATO\n- PCI DSS v3.2.1\nIn addition to ensuring the confidentiality, integrity and availability of Google environment, Google\u2019s comprehensive third party audit approach is designed to provide assurances of Google\u2019s commitment to best in class information security. Customers may reference these third party audits reports to assess how Google\u2019s products can meet their HIPAA compliance needs.\nCustomer Responsibilities\nOne of the key responsibilities for a customer is to determine whether or not they are a Covered Entity (or a Business Associate of a Covered Entity) and, if so, whether they require a Business Associate Agreement with Google for the purposes of their interactions.\nWhile Google provides a secure and compliant infrastructure (as described above) for the storage and processing of PHI, the customer is responsible for ensuring that the environment and applications that they build on top of Google Cloud are properly configured and secured according to HIPAA requirements. This is often referred to as the shared security model in the cloud.\nEssential best practices:\n- Execute a Google Cloud BAA. You can follow the instructions in the Privacy compliance and records for Google Cloud to review and accept the BAA.\n- Disable or otherwise ensure that you do not use Google Cloud Products that are not explicitly covered by the BAA (see Covered Products) when working with PHI.\n- Do not use Pre-GA offerings (products or services offered under the Google Cloud Pre-General Availability Program or other pre-GA offerings as defined in Google's Service Specific Terms) in connection with PHI, unless expressly noted otherwise in a notice or other terms of the offering.\nRecommended technical best practices:\n- Use IAM best practices when configuring who has access to your project. In particular, because service accounts can be used to access resources, ensure access to those service accounts and service account keys is tightly controlled.\n- Determine whether your organization has encryption requirements beyond what is required by the HIPAA security rule. All customer content is encrypted at rest on Google Cloud, see our encryption white paper for further details and any exceptions.\n- If you are using Cloud Storage, consider enabling Object Versioning to provide an archive for that data and to allow for undelete in the case of accidental data deletion.\n- Configure audit log export destinations. We strongly encourage exporting audit logs to Cloud Storage for long term archival as well as to BigQuery for any analytical, monitoring, and/or forensic needs. Be sure to configure access control for those destinations appropriate to your organization.\n- Configure access control for the logs appropriate to your organization. Admin Activity audit logs can be accessed by users with the Logs Viewer role and Data Access audit logs can be accessed by users with the Private Logs Viewer role.\n- Regularly review audit logs to ensure security and compliance with requirements. As noted above, BigQuery is an excellent platform for large scale log analysis. You may also consider leveraging SIEM platforms from our third-party integrations to demonstrate compliance through log analysis.\n- When creating or configuring indexes in Cloud Datastore, encrypt any PHI, security credentials, or other sensitive data, before using it as the entity key, indexed property key, or indexed property value for the index. See the Cloud Datastore documentation for information on creating and/or configuring indexes.\n- When creating or updating Dialogflow agents, be sure to avoid including PHI or security credentials anywhere in your agent definition, including Intents, Training Phrases and Entities.\n- When creating or updating resources, be sure to avoid including PHI or security credentials when specifying a resource\u2019s metadata as that information may be captured in the logs. Audit logs never include the data contents of a resource or the results of a query in the logs, but resource metadata may be captured.\n- Use Identity Platform practices when using Identity Platform for your project.\n- When using Cloud Build services for continuous integration or development, avoid including or storing PHI within build config files, source control files, or other build artifacts.\n- If you are using Looker (Google Cloud core), individuals designated by Customer",
     "url": "https://cloud.google.com/security/compliance/hipaa"
   },
+  "jmir-ai": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "https://ai.jmir.org/2026/1/e83413",
+      "https://ai.jmir.org/2026/1/e84362",
+      "https://ai.jmir.org/2026/1/e81149",
+      "https://ai.jmir.org/2026/1/e81028",
+      "https://ai.jmir.org/2026/1/e78764",
+      "https://ai.jmir.org/2026/1/e85163",
+      "https://ai.jmir.org/2026/1/e77988",
+      "https://ai.jmir.org/2026/1/e80173",
+      "https://ai.jmir.org/2026/1/e82775",
+      "https://ai.jmir.org/2026/1/e84145"
+    ],
+    "url": "https://ai.jmir.org/feed"
+  },
+  "nature-digital-medicine": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "https://www.nature.com/articles/s41746-026-02634-1",
+      "https://www.nature.com/articles/s41746-026-02654-x",
+      "https://www.nature.com/articles/s41746-026-02661-y",
+      "https://www.nature.com/articles/s41746-026-02677-4",
+      "https://www.nature.com/articles/s41746-026-02650-1",
+      "https://www.nature.com/articles/s41746-026-02641-2",
+      "https://www.nature.com/articles/s41746-026-02670-x",
+      "https://www.nature.com/articles/s41746-026-02674-7"
+    ],
+    "url": "https://www.nature.com/npjdigitalmed.rss"
+  },
   "ncsl-ai-legislation": {
     "content_hash": "link-ok",
     "last_checked": "2026-04-27T16:15:24.667533+00:00",
@@ -81,6 +235,32 @@
     "last_checked": "2026-04-27T16:15:24.667533+00:00",
     "snapshot": "HTI-1 Final Rule\nHealth Data, Technology, and Interoperability (HTI-1) Certification Program Updates, Algorithm Transparency, and Information Sharing implements provisions of the 21st Century Cures Act and makes updates to the ONC Health IT Certification Program (Certification Program) with new and updated standards, implementation specifications, and certification criteria. Provisions in the HTI-1 final rule advance interoperability, improve transparency, and support the access, exchange, and use of electronic health information.\nKey Aspects of the Final Rule\nAlgorithm Transparency\nEstablishes first of its kind transparency requirements for the artificial intelligence (AI) and other predictive algorithms that are part of certified health IT. ONC-certified health IT supports the care delivered by more than 96% of hospitals and 78% of office-based physicians around the country. HHS\u2019 leading-edge regulatory approach will promote responsible AI and make it possible for clinical users to access a consistent, baseline set of information about the algorithms they use to support their decision making and to assess such algorithms for fairness, appropriateness, validity, effectiveness, and safety.\nUSCDI Version 3\nAdopts the United States Core Data for Interoperability (USCDI) Version 3 (v3) as the new baseline standard within the ONC Health IT Certification Program (Certification Program) as of January 1, 2026. Developers of certified health IT will also have the ability to move to USCDI v3 sooner. USCDI v3 includes updates to prior USCDI versions focused on advancing more accurate and complete patient characteristics data that could help promote equity, reduce disparities, and support public health data interoperability.\nEnhanced Information Blocking Requirements\nRevises certain information blocking definitions and exceptions to support information sharing, and adds a new exception to encourage secure, efficient, standards-based exchange of electronic health information under the Trusted Exchange Framework and Common AgreementTM (TEFCATM).\nNew Interoperability-Focused Reporting Metrics for Certified Health IT\nImplements the 21st Century Cures Act\u2019s requirement to adopt a Condition of Certification (the \u201cInsights Condition\u201d) for developers of certified health IT to report certain metrics as part of their participation in the Certification Program. These metrics will give more insight into how certified health IT is used in support of care delivery.\nAdditional Notices\nThese notices include corrections to the HTI-1 final rule that ensure the appropriate sections of the regulations are revised. There are no substantive changes in these notices and all corrections are effective along with the provisions in the HTI-1 final rule on March 11, 2024.\nHTI-1 Resources\nONC hosted information sessions to explain the final rule. Session recordings and fact sheets are available below.\nHTI-1 Final Rule Overview Information Session #1\nPresentation Slides [PDF \u2013 1.9 MB]\nHTI-1 Final Rule Decision Support Interventions Information Session\nPresentation Slides [PDF- 883 KB]\nHTI-1 Final Rule Information Blocking Information Session\nPresentation Slides [PDF- 2 MB]\nHTI-1 Final Rule Overview with Question & Answer Information Session #2\nPresentation Slides [PDF \u2013 1.3 MB]\nHTI-1 Final Rule Insights Condition Information Session\nPresentation Slides [PDF \u2013 1.4 MB]\nHTI-1 Proposed Rule\nLooking for content and materials from the HTI-1 proposed rule? View archived content",
     "url": "https://www.healthit.gov/topic/laws-regulation-and-policy/health-data-technology-and-interoperability-certification-program"
+  },
+  "perspectives-on-behavior-science": {
+    "last_checked": "2026-04-27T16:15:45.825957+00:00",
+    "seen_ids": [
+      "https://link.springer.com/10.1007/s40614-025-00484-y",
+      "https://link.springer.com/10.1007/s40614-025-00488-8",
+      "https://link.springer.com/10.1007/s40614-025-00491-z",
+      "https://link.springer.com/10.1007/s40614-026-00495-3",
+      "https://link.springer.com/10.1007/s40614-026-00496-2",
+      "https://link.springer.com/10.1007/s40614-026-00493-5",
+      "https://link.springer.com/10.1007/s40614-026-00500-9",
+      "https://link.springer.com/10.1007/s40614-025-00481-1",
+      "https://link.springer.com/10.1007/s40614-025-00486-w",
+      "https://link.springer.com/10.1007/s40614-025-00492-y",
+      "https://link.springer.com/10.1007/s40614-025-00487-9",
+      "https://link.springer.com/10.1007/s40614-026-00501-8",
+      "https://link.springer.com/10.1007/s40614-025-00490-0",
+      "https://link.springer.com/10.1007/s40614-025-00483-z",
+      "https://link.springer.com/10.1007/s40614-025-00485-x",
+      "https://link.springer.com/10.1007/s40614-025-00480-2",
+      "https://link.springer.com/10.1007/s40614-025-00479-9",
+      "https://link.springer.com/10.1007/s40614-026-00494-4",
+      "https://link.springer.com/10.1007/s40614-025-00489-7",
+      "https://link.springer.com/10.1007/s40614-026-00497-1"
+    ],
+    "url": "https://link.springer.com/search.rss?facet-content-type=Article&facet-journal-id=40614&channel-name=Perspectives+on+Behavior+Science"
   },
   "who-lmm-health": {
     "content_hash": "e28f5eea90f6e969fa5a54bfc4623343e2b087f44ed23d3d0344c3cad516e710",
