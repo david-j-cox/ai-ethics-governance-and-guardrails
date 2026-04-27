@@ -1,0 +1,71 @@
+# Research and incident feeds for the weekly digest.
+#
+# These are RSS/Atom feeds the agent reads to surface new papers,
+# incident reports, and capability/safety announcements relevant to
+# the Responsible Clinical AI site. Output is a digest PR ("you should
+# look at these"), NOT proposed edits.
+#
+# Adding a feed here is cheap. Dropping signal-poor feeds is encouraged.
+
+sources:
+  - id: arxiv-cs-cl-clinical-llm
+    url: http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare+OR+abs:patient%29+AND+%28abs:LLM+OR+abs:%22language+model%22+OR+abs:generation%29&sortBy=submittedDate&sortOrder=descending&max_results=30
+    type: feed
+    cadence: weekly
+    notes: |
+      arXiv cs.CL papers on clinical/medical LLMs and generation.
+      Atom feed via the arXiv API. Top 30 most recent submissions.
+
+  - id: arxiv-cs-cy-clinical-ai-ethics
+    url: http://export.arxiv.org/api/query?search_query=cat:cs.CY+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare%29+AND+%28abs:AI+OR+abs:%22machine+learning%22%29&sortBy=submittedDate&sortOrder=descending&max_results=20
+    type: feed
+    cadence: weekly
+    notes: |
+      arXiv cs.CY (Computers and Society) on clinical AI ethics.
+      Atom feed via the arXiv API.
+
+  - id: behavior-analysis-in-practice
+    url: https://link.springer.com/search.rss?facet-content-type=Article&facet-journal-id=40617&channel-name=Behavior+Analysis+in+Practice
+    type: feed
+    cadence: weekly
+    notes: |
+      Behavior Analysis in Practice (Springer). Domain-specific to ABA.
+      Where Jennings & Cox 2023 ethical-AI-in-ABA article appeared.
+
+  - id: perspectives-on-behavior-science
+    url: https://link.springer.com/search.rss?facet-content-type=Article&facet-journal-id=40614&channel-name=Perspectives+on+Behavior+Science
+    type: feed
+    cadence: weekly
+    notes: |
+      Perspectives on Behavior Science (Springer). Where Cox 2025
+      "Ethical Behavior Analysis in the Age of AI" appeared.
+
+  - id: jmir-ai
+    url: https://ai.jmir.org/feed
+    type: feed
+    cadence: weekly
+    notes: |
+      JMIR AI. Practitioner-facing AI in healthcare.
+
+  - id: nature-digital-medicine
+    url: https://www.nature.com/npjdigitalmed.rss
+    type: feed
+    cadence: weekly
+    notes: |
+      Nature npj Digital Medicine. High-signal clinical AI research.
+
+  - id: ai-incident-database
+    url: https://incidentdatabase.ai/rss.xml
+    type: feed
+    cadence: weekly
+    notes: |
+      AI Incident Database. Real-world failure write-ups; especially
+      important for the risks/ section and red-team material.
+
+  - id: anthropic-news
+    url: https://www.anthropic.com/news/rss.xml
+    type: feed
+    cadence: weekly
+    notes: |
+      Anthropic news and product announcements. Capability and safety
+      changes that affect "what's possible" in clinical deployment.

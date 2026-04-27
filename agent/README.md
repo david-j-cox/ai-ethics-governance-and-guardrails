@@ -38,16 +38,36 @@ Without `ANTHROPIC_API_KEY` set, the agent will still fetch and update `state.js
 
 ## What the agent does on each run
 
-1. Loads source definitions from `sources/*.yaml`.
-2. Fetches each source over HTTPS with a 30-second timeout. For `html` sources, runs trafilatura to extract main content. For `link-check` sources, just verifies the URL resolves.
-3. Hashes the extracted content. Compares to the last-known hash stored in `state.json`.
-4. For changed `html` sources, calls Claude Opus 4.7 once per changed source. The system prompt is cached, and each affected page is sent as a separately-cached content block. Subsequent runs against the same diff are near-free.
-5. Claude returns structured JSON: a 2-3 sentence summary and a list of proposed edits (`replace`, `append`, or `no-edit`). Edits are conservative find/replace patches, not rewrites.
-6. The agent applies edits where the `find` string is unambiguous; ambiguous or missing matches are reported to the PR body for human attention.
-7. Updates `state.json` with new content hashes and timestamps for every source successfully fetched, including unchanged ones.
-8. If anything changed, commits to a fresh branch and opens one PR.
+The agent runs two independent pipelines per run. They share the fetch/state primitives but produce separate PRs so the maintainer can review them differently.
 
-Fetch failures are logged and skipped; the next run retries from the same baseline. Network blips don't poison state.
+### Pipeline A: source watch (`html` and `link-check` sources)
+
+For inertial reference material, regulatory guidance, and provider documentation. Watches a fixed list of URLs for substantive content change.
+
+1. For each source, fetch over HTTPS (30s timeout), extract main content via trafilatura, hash.
+2. Compare hash to `state.json`. Unchanged sources are no-ops; only update the last-checked timestamp.
+3. For changed `html` sources, call Claude Opus 4.7 once per changed source. The system prompt is cached; each affected page is a separately-cached content block.
+4. Claude returns structured JSON: a 2-3 sentence summary plus a list of `replace` / `append` / `no-edit` patches.
+5. Apply patches where the `find` string is unambiguous; ambiguous or missing matches go in the PR body for human attention.
+6. If anything changed, commit to a fresh `agent/source-update-*` branch and open one PR labeled `agent` + `source-monitor`.
+
+### Pipeline B: research digest (`feed` sources)
+
+For research, incidents, and capability announcements. Reads RSS/Atom feeds and triages new entries into a digest.
+
+1. Read each feed via `feedparser`. Cap entries inspected per feed at 30, total per run at 150.
+2. Dedupe each entry against the per-feed `seen_ids` set in `state.json`. Entries the agent has seen before are skipped.
+3. If any new entries exist, send all of them in one batched call to Claude Opus 4.7 for relevance triage. The system prompt biases toward clinical/behavioral-health relevance and against generic LLM benchmark noise.
+4. Claude returns one row per entry: `relevant: true|false` plus a one-line pitch (~30 words) for relevant items.
+5. Open a separate `agent/research-digest-*` branch with the maintainer-facing digest as the PR body. The PR proposes no docs edits. It is a pointer ("you should look at these"), not an edit.
+6. PR labeled `agent` + `research-digest`.
+
+### Both pipelines
+
+- Update `state.json` (content hashes for watch sources, seen_ids for feeds) on every successful fetch, including for unchanged sources. The state file is committed as part of whichever PR (or both) is opened.
+- Fetch failures are logged and skipped, not fatal. Next run retries from the same baseline.
+- A clean week with no changes and no new entries opens zero PRs.
+- Neither pipeline ever auto-merges. The maintainer is the human in the loop.
 
 ## Source list philosophy
 
