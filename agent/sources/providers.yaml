@@ -1,0 +1,40 @@
+# LLM provider documentation relevant to clinical deployment.
+# We watch HIPAA/BAA scope, caching, grounding, structured output, and safety features.
+
+sources:
+  - id: anthropic-trust
+    url: https://privacy.anthropic.com/
+    type: html
+    cadence: weekly
+    applies_to:
+      - architecture/deployment.md
+      - reference/regulatory.md
+    notes: |
+      Anthropic Trust Center / HIPAA scope. BAA terms and feature scope change.
+
+  - id: aws-bedrock-hipaa
+    url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+    type: html
+    cadence: weekly
+    applies_to:
+      - architecture/deployment.md
+    notes: |
+      AWS HIPAA-eligible services list. Bedrock model coverage evolves.
+
+  - id: google-cloud-hipaa
+    url: https://cloud.google.com/security/compliance/hipaa
+    type: html
+    cadence: weekly
+    applies_to:
+      - architecture/deployment.md
+    notes: |
+      Google Cloud HIPAA scope including Vertex AI.
+
+  - id: azure-openai-hipaa
+    url: https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/data-privacy
+    type: html
+    cadence: weekly
+    applies_to:
+      - architecture/deployment.md
+    notes: |
+      Azure OpenAI privacy and HIPAA scope.

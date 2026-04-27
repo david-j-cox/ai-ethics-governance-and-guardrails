@@ -1,0 +1,38 @@
+name: Source monitor (weekly)
+
+on:
+  schedule:
+    # Mondays at 13:00 UTC (~9am ET, 6am PT)
+    - cron: "0 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyyaml httpx anthropic
+
+      - name: Run source monitor
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python agent/monitor.py
+
+      # The monitor opens its own PRs via the GitHub API; nothing to commit here
+      # unless we want to also commit state.json updates as a separate housekeeping PR.
+      # Left as a follow-up once the monitor is fully implemented.

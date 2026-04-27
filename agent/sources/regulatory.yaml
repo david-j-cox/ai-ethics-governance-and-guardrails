@@ -1,0 +1,64 @@
+# Federal regulatory sources relevant to clinical generative AI.
+# State law tracking is delegated to dedicated trackers; we just verify
+# the tracker URLs still resolve so the reference page links don't rot.
+
+sources:
+  - id: fda-cds-guidance
+    url: https://www.fda.gov/regulatory-information/search-fda-guidance-documents/clinical-decision-support-software
+    type: html
+    cadence: monthly
+    applies_to:
+      - reference/regulatory.md
+      - architecture/deployment.md
+    notes: |
+      FDA Clinical Decision Support Software final guidance. Updates rare but consequential.
+
+  - id: fda-ai-ml-devices
+    url: https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices
+    type: html
+    cadence: monthly
+    applies_to:
+      - reference/regulatory.md
+    notes: |
+      FDA AI/ML-enabled device list and program updates.
+
+  - id: onc-hti
+    url: https://www.healthit.gov/topic/laws-regulation-and-policy/health-data-technology-and-interoperability-certification-program
+    type: html
+    cadence: weekly
+    applies_to:
+      - reference/regulatory.md
+      - reference/frameworks.md
+      - architecture/audit-logging.md
+    notes: |
+      ONC HTI rule series. HTI-1 finalized; HTI-2/3 proposals expand DSI scope.
+
+  - id: hhs-ocr-hipaa
+    url: https://www.hhs.gov/hipaa/for-professionals/index.html
+    type: html
+    cadence: monthly
+    applies_to:
+      - reference/regulatory.md
+      - architecture/deployment.md
+    notes: |
+      HHS OCR HIPAA guidance. AI-specific guidance has not yet been issued; watch for it.
+
+  - id: ncsl-ai-legislation
+    url: https://www.ncsl.org/technology-and-communication/artificial-intelligence-2024-legislation
+    type: link-check
+    cadence: weekly
+    applies_to:
+      - reference/regulatory.md
+    notes: |
+      NCSL AI legislation tracker. We do not mirror state-level changes;
+      we verify the tracker URL resolves so our reference link doesn't rot.
+
+  - id: husch-blackwell-ai-watch
+    url: https://www.huschblackwell.com/2024-state-ai-laws-and-policies
+    type: link-check
+    cadence: weekly
+    applies_to:
+      - reference/regulatory.md
+    notes: |
+      Husch Blackwell state AI law tracker. Same rationale as NCSL:
+      verify the link resolves; the tracker itself does the substantive work.

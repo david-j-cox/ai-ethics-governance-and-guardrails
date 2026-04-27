@@ -1,0 +1,45 @@
+# Voluntary frameworks and standards for clinical AI.
+# These move on weeks-to-months timescales; weekly check is plenty.
+
+sources:
+  - id: nist-ai-rmf
+    url: https://www.nist.gov/itl/ai-risk-management-framework
+    type: html
+    cadence: weekly
+    applies_to:
+      - reference/frameworks.md
+      - evaluation/methodology.md
+    notes: |
+      NIST AI RMF 1.0 + Generative AI Profile (NIST AI 600-1) updates.
+      Watch for new profile publications and crosswalks.
+
+  - id: chai-assurance
+    url: https://chai.org/
+    type: html
+    cadence: weekly
+    applies_to:
+      - reference/frameworks.md
+      - evaluation/bias.md
+      - architecture/audit-logging.md
+    notes: |
+      Coalition for Health AI assurance standards and applied model card guidance.
+
+  - id: who-lmm-health
+    url: https://www.who.int/publications/i/item/9789240084759
+    type: html
+    cadence: monthly
+    applies_to:
+      - reference/frameworks.md
+      - foundations/principles.md
+    notes: |
+      WHO LMM in health guidance. Updates infrequent; monthly check is enough.
+
+  - id: ama-ai-principles
+    url: https://www.ama-assn.org/practice-management/digital/ama-augmented-intelligence-development-deployment-and-use-healthcare
+    type: html
+    cadence: monthly
+    applies_to:
+      - reference/frameworks.md
+      - governance/accountability.md
+    notes: |
+      AMA Augmented Intelligence principles. Position statements update slowly.

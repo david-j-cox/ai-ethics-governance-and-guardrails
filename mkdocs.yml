@@ -1,0 +1,99 @@
+site_name: Responsible Clinical AI
+site_description: A builder's blueprint for generative-AI clinical decision support.
+site_author: David J. Cox
+# site_url will be set when GH Pages domain is finalized
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+plugins:
+  - search
+  - awesome-pages
+
+nav:
+  - Home: index.md
+  - Foundations:
+      - foundations/index.md
+      - Who this is for: foundations/audience.md
+      - Principles: foundations/principles.md
+      - How to use this site: foundations/how-to-use.md
+  - Architecture:
+      - architecture/index.md
+      - Deployment & data plane: architecture/deployment.md
+      - Retrieval (RAG) over patient records: architecture/rag.md
+      - Grounding & hallucination mitigation: architecture/grounding.md
+      - Structured output & verification: architecture/structured-output.md
+      - Audit, logging & explainability: architecture/audit-logging.md
+      - Agentic systems: architecture/agents.md
+  - Evaluation:
+      - evaluation/index.md
+      - Methodology: evaluation/methodology.md
+      - Bias & subgroup evaluation: evaluation/bias.md
+      - Ongoing monitoring & drift: evaluation/monitoring.md
+      - Red-teaming: evaluation/red-team.md
+      - Minimum criteria & rollback: evaluation/minimum-criteria.md
+  - Governance:
+      - governance/index.md
+      - Clinician-in-the-loop: governance/clinician-in-the-loop.md
+      - "What 'training the model' actually means": governance/training-the-model.md
+      - Informed consent: governance/consent.md
+      - Accountability & liability: governance/accountability.md
+  - Risks:
+      - risks/index.md
+      - "Domain spotlight: ABA treatment planning": risks/aba.md
+  - Reference:
+      - reference/index.md
+      - Regulatory backdrop: reference/regulatory.md
+      - Frameworks & standards: reference/frameworks.md
+      - Glossary: reference/glossary.md
+  - Checklists:
+      - checklists/index.md
+      - Red flags audit: checklists/red-flags.md
+      - Deployment readiness: checklists/deployment-readiness.md

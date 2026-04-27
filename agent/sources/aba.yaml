@@ -1,0 +1,63 @@
+# ABA-specific sources for the domain spotlight.
+
+sources:
+  - id: bacb-ethics
+    url: https://www.bacb.com/ethics-information/
+    type: html
+    cadence: monthly
+    applies_to:
+      - risks/aba.md
+      - governance/accountability.md
+    notes: |
+      BACB Ethics Code page. Watch for AI-specific updates or enforcement notices.
+
+  - id: bacb-newsletter
+    url: https://www.bacb.com/inside-behavior-analysis/
+    type: html
+    cadence: monthly
+    applies_to:
+      - risks/aba.md
+    notes: |
+      Inside Behavior Analysis newsletter. AI/technology guidance has appeared here.
+
+  - id: asan
+    url: https://autisticadvocacy.org/policy/briefs/intervention-ethics/
+    type: html
+    cadence: monthly
+    applies_to:
+      - risks/aba.md
+    notes: |
+      Autistic Self-Advocacy Network intervention ethics briefs.
+
+  - id: bhcoe
+    url: https://bhcoe.org/standards/
+    type: html
+    cadence: monthly
+    applies_to:
+      - risks/aba.md
+      - governance/accountability.md
+    notes: |
+      BHCOE accreditation standards. No AI-specific standards yet; watch for them.
+
+  - id: casp-ai-practice-parameters
+    url: https://www.casproviders.org/practice-parameters-for-ai
+    type: html
+    cadence: monthly
+    applies_to:
+      - risks/aba.md
+      - governance/accountability.md
+    notes: |
+      Council of Autism Service Providers (CASP) Practice Parameters for
+      Artificial Intelligence Use in Applied Behavior Analysis. Field-level
+      guidance; revisions are consequential and should be reflected on-site.
+
+  - id: aic-aba-guidelines
+    url: https://www.aiaba.org/guidelines
+    type: html
+    cadence: monthly
+    applies_to:
+      - risks/aba.md
+      - governance/accountability.md
+    notes: |
+      AI Consortium for ABA (AIC-ABA) Ethical Guidelines for AI in ABA.
+      Versioned guidance; new versions should trigger a content review.
