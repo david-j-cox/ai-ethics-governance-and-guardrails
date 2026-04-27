@@ -35,13 +35,15 @@ sources:
 
   - id: hhs-ocr-hipaa
     url: https://www.hhs.gov/hipaa/for-professionals/index.html
-    type: html
+    type: link-check
     cadence: monthly
     applies_to:
       - reference/regulatory.md
       - architecture/deployment.md
     notes: |
-      HHS OCR HIPAA guidance. AI-specific guidance has not yet been issued; watch for it.
+      HHS OCR HIPAA guidance hub. The site bot-blocks content fetches
+      (returns 403), so we just verify the URL resolves. For substantive
+      HIPAA AI guidance, watch HHS press releases and NIST/ONC outputs.
 
   - id: ncsl-ai-legislation
     url: https://www.ncsl.org/technology-and-communication/artificial-intelligence-2024-legislation
@@ -54,11 +56,13 @@ sources:
       we verify the tracker URL resolves so our reference link doesn't rot.
 
   - id: husch-blackwell-ai-watch
-    url: https://www.huschblackwell.com/2024-state-ai-laws-and-policies
+    url: https://www.huschblackwell.com/2024-ai-state-law-tracker
     type: link-check
     cadence: weekly
     applies_to:
       - reference/regulatory.md
     notes: |
       Husch Blackwell state AI law tracker. Same rationale as NCSL:
-      verify the link resolves; the tracker itself does the substantive work.
+      verify the link resolves; the tracker itself does the substantive
+      work. Note: Husch Blackwell rotates the tracker URL annually
+      (2024-ai-state-law-tracker, 2025-..., etc.); update before year roll.
