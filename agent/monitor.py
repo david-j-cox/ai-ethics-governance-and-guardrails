@@ -668,6 +668,35 @@ def github_repo_slug() -> str | None:
     return url.removesuffix(".git").strip()
 
 
+def resolve_base_branch(repo: str, token: str) -> str:
+    """Return the repo's default branch via the GitHub API.
+
+    Falls back to GITHUB_BASE_REF, then to the literal string 'main'.
+    The env-var fallback exists for local dev; in CI we always hit the API
+    so we get the *current* default branch (not a stale env value).
+    """
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    try:
+        with httpx.Client(timeout=30.0) as client:
+            resp = client.get(
+                f"https://api.github.com/repos/{repo}", headers=headers
+            )
+        if resp.status_code < 300:
+            data = resp.json()
+            default = data.get("default_branch")
+            if default:
+                return default
+    except httpx.HTTPError as e:
+        print(f"[pr] could not query default branch: {e}")
+
+    env_base = (os.environ.get("GITHUB_BASE_REF") or "").strip()
+    return env_base or "main"
+
+
 def open_pr(branch: str, title: str, body: str, labels: list[str]) -> str | None:
     repo = github_repo_slug()
     token = os.environ.get("GITHUB_TOKEN")
@@ -675,7 +704,9 @@ def open_pr(branch: str, title: str, body: str, labels: list[str]) -> str | None
         print("[pr] missing GITHUB_REPOSITORY or GITHUB_TOKEN; skipping PR creation")
         return None
 
-    base = os.environ.get("GITHUB_BASE_REF", "main")
+    base = resolve_base_branch(repo, token)
+    print(f"[pr] opening PR: head={branch} base={base} repo={repo}")
+
     payload = {"title": title, "head": branch, "base": base, "body": body}
     headers = {
         "Accept": "application/vnd.github+json",
@@ -704,6 +735,44 @@ def open_pr(branch: str, title: str, body: str, labels: list[str]) -> str | None
                 json={"labels": labels},
             )
     return pr_url
+
+
+def push_state_only(target_branch: str) -> bool:
+    """Stage agent/state.json and push directly to target_branch.
+
+    Used to persist state when there's nothing PR-worthy. Without this, every
+    run on an empty seen-set re-discovers the same content, re-pays the LLM
+    cost, and never bootstraps. Returns True if anything was pushed.
+
+    The target_branch must already exist remotely. We pull --rebase first
+    so we don't conflict with parallel commits.
+    """
+    run_git("add", "agent/state.json")
+    diff = run_git("diff", "--cached", "--name-only")
+    if not diff:
+        return False
+
+    run_git("config", "user.email", "noreply@github.com")
+    run_git("config", "user.name", "source-monitor[bot]")
+    run_git("commit", "-m", "chore(agent): persist source-monitor state")
+
+    # Make sure we're on target_branch and up to date with remote before push.
+    current = run_git("rev-parse", "--abbrev-ref", "HEAD")
+    if current != target_branch:
+        # Detached or different branch; create/checkout target.
+        try:
+            run_git("checkout", target_branch)
+        except subprocess.CalledProcessError:
+            run_git("checkout", "-b", target_branch, f"origin/{target_branch}")
+
+    # Try to push; if rejected for being behind, rebase and retry once.
+    try:
+        run_git("push", "origin", target_branch)
+    except subprocess.CalledProcessError:
+        run_git("fetch", "origin", target_branch)
+        run_git("rebase", f"origin/{target_branch}")
+        run_git("push", "origin", target_branch)
+    return True
 
 
 def commit_branch_and_open_pr(
@@ -985,8 +1054,18 @@ def main(argv: Iterable[str] = ()) -> int:
         if digest_pr_url:
             print(f"[monitor] digest PR: {digest_pr_url}")
 
+    # If no PR was opened (clean week, OR PR creation failed), still push the
+    # state file so we don't re-discover the same content next run. Without
+    # this, a PR-creation bug or a clean first run leaves seen_ids empty
+    # forever and we re-pay the LLM cost every week.
     if not watch_pr_url and not digest_pr_url:
-        print("[monitor] no PRs opened this run")
+        token = os.environ.get("GITHUB_TOKEN")
+        repo = github_repo_slug()
+        target = resolve_base_branch(repo, token) if (repo and token) else "main"
+        if push_state_only(target):
+            print(f"[monitor] no PRs opened; pushed state directly to {target}")
+        else:
+            print("[monitor] no PRs opened this run; nothing to commit")
 
     return 0
 
