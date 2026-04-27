@@ -12,13 +12,14 @@ sources:
       BACB Ethics Code page. Watch for AI-specific updates or enforcement notices.
 
   - id: bacb-newsletter
-    url: https://www.bacb.com/inside-behavior-analysis/
+    url: https://www.bacb.com/newsletters/
     type: html
     cadence: monthly
     applies_to:
       - risks/aba.md
     notes: |
-      Inside Behavior Analysis newsletter. AI/technology guidance has appeared here.
+      BACB newsletters index. AI/technology guidance has appeared in
+      monthly newsletters; this page lists recent issues.
 
   - id: asan
     url: https://autisticadvocacy.org/policy/briefs/intervention-ethics/

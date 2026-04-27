@@ -62,10 +62,3 @@ sources:
       AI Incident Database. Real-world failure write-ups; especially
       important for the risks/ section and red-team material.
 
-  - id: anthropic-news
-    url: https://www.anthropic.com/news/rss.xml
-    type: feed
-    cadence: weekly
-    notes: |
-      Anthropic news and product announcements. Capability and safety
-      changes that affect "what's possible" in clinical deployment.

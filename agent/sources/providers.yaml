@@ -31,10 +31,24 @@ sources:
       Google Cloud HIPAA scope including Vertex AI.
 
   - id: azure-openai-hipaa
-    url: https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/data-privacy
+    url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
     type: html
     cadence: weekly
     applies_to:
       - architecture/deployment.md
     notes: |
-      Azure OpenAI privacy and HIPAA scope.
+      Azure OpenAI privacy and HIPAA scope. Microsoft moved this page
+      under Microsoft Foundry / Responsible AI in 2025-2026.
+
+  - id: anthropic-news-page
+    url: https://www.anthropic.com/news
+    type: html
+    cadence: weekly
+    applies_to:
+      - architecture/deployment.md
+      - reference/regulatory.md
+    notes: |
+      Anthropic news index page. The RSS feed at /news/rss.xml is
+      malformed, so we hash the rendered news index instead. Capability
+      and safety announcements that affect HIPAA-aligned deployment
+      land here.

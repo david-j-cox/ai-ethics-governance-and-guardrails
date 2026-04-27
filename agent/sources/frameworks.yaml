@@ -35,11 +35,12 @@ sources:
       WHO LMM in health guidance. Updates infrequent; monthly check is enough.
 
   - id: ama-ai-principles
-    url: https://www.ama-assn.org/practice-management/digital/ama-augmented-intelligence-development-deployment-and-use-healthcare
+    url: https://www.ama-assn.org/practice-management/digital-health/augmented-intelligence-medicine
     type: html
     cadence: monthly
     applies_to:
       - reference/frameworks.md
       - governance/accountability.md
     notes: |
-      AMA Augmented Intelligence principles. Position statements update slowly.
+      AMA Augmented Intelligence in Medicine hub page. Position statements
+      and physician-facing guidance accumulate here. Updates slowly.
