@@ -2,7 +2,7 @@
 
 A builder's blueprint, and a buyer's reference checklist, for teams working with generative-AI clinical decision support. Written for the engineers, clinicians, and leaders who have to make it work in practice.
 
-Live site: <https://david-j-cox.github.io/ai-ethics-governance-and-guardrails/>.
+Live site: <https://responsible-clinical-ai.org/>.
 
 This is a living site. Content is markdown under `docs/`, built with MkDocs Material, deployed to GitHub Pages. A weekly agent watches a curated source list and an RSS feed list, and opens pull requests for the maintainer to review. The agent never merges its own work.
 
