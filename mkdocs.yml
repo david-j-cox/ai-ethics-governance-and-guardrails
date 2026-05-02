@@ -68,6 +68,12 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
 
+extra_css:
+  - assets/support-banner.css
+
+extra_javascript:
+  - assets/support-banner.js
+
 plugins:
   - search
   - awesome-pages

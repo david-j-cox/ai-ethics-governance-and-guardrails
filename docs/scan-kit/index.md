@@ -80,6 +80,15 @@ Output is a per-section findings report with severity tags (BLOCKING / HIGH / ME
 
 The full table and copy-paste symlink commands are in the downloaded `AGENTS.md` itself.
 
+## Support this work
+
+The scan kit, the audit prompt, and the rest of this site are maintained by one person and kept free. If the kit saves you a review cycle or catches a finding before it ships, consider chipping in:
+
+- [Sponsor on GitHub](https://github.com/sponsors/david-j-cox) — recurring or one-time, all tiers welcome.
+- [Tip on Ko-fi](https://ko-fi.com/davidjcox) — one-time tip, no account needed.
+
+Funds go to the time it takes to keep the site current as the regulatory and tooling landscape shifts.
+
 ## Contributing back
 
 If you run the kit and find a rule that should be tightened, a finding category that's missing, or a tool whose convention should be added, the site is open to suggestions. The repo is at <https://github.com/david-j-cox/ai-ethics-governance-and-guardrails>.
