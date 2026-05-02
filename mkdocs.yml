@@ -38,6 +38,18 @@ theme:
     text: Inter
     code: JetBrains Mono
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/david-j-cox/ai-ethics-governance-and-guardrails
+      name: Source on GitHub
+    - icon: fontawesome/solid/heart
+      link: https://github.com/sponsors/david-j-cox
+      name: Sponsor on GitHub
+    - icon: fontawesome/solid/mug-hot
+      link: https://ko-fi.com/davidjcox
+      name: Tip on Ko-fi
+
 markdown_extensions:
   - admonition
   - attr_list
