@@ -55,6 +55,7 @@ AGENT_DIR = Path(__file__).resolve().parent
 SOURCES_DIR = AGENT_DIR / "sources"
 STATE_PATH = AGENT_DIR / "state.json"
 DOCS_ROOT = REPO_ROOT / "docs"
+LLMS_TXT_PATH = DOCS_ROOT / "llms.txt"
 
 USER_AGENT = (
     "responsible-clinical-ai-monitor/1.0 "
@@ -369,6 +370,35 @@ def call_claude_for_source(client: Anthropic, change: SourceChange) -> SourceRep
         for e in data.get("edits", [])
     ]
     return SourceReport(source=change.source, summary=data["summary"], edits=edits)
+
+
+def llms_txt_referenced_pages() -> set[str]:
+    """Return docs/ paths referenced by llms.txt as canonical site-relative URLs.
+
+    Resolves each https://responsible-clinical-ai.org/<slug>/ link to its
+    docs/<slug>.md or docs/<slug>/index.md source file. Used to flag PRs
+    that touch curated entry points so the maintainer can revisit llms.txt.
+    """
+    if not LLMS_TXT_PATH.exists():
+        return set()
+    import re
+    text = LLMS_TXT_PATH.read_text()
+    referenced: set[str] = set()
+    for url in re.findall(r"https://responsible-clinical-ai\.org/([^\s)]*)", text):
+        slug = url.strip("/")
+        if not slug:
+            candidate = "docs/index.md"
+        else:
+            md_candidate = DOCS_ROOT / f"{slug}.md"
+            index_candidate = DOCS_ROOT / slug / "index.md"
+            if md_candidate.exists():
+                candidate = f"docs/{slug}.md"
+            elif index_candidate.exists():
+                candidate = f"docs/{slug}/index.md"
+            else:
+                continue
+        referenced.add(candidate)
+    return referenced
 
 
 def apply_edit(edit: ProposedEdit) -> tuple[bool, str]:
@@ -823,6 +853,7 @@ def build_source_pr_body(
     errors: list[tuple[Source, str]],
     applied_messages: list[str],
     skipped_messages: list[str],
+    llms_txt_touched: set[str],
 ) -> str:
     lines: list[str] = []
     lines.append("Automated source-monitor PR. Review every change before merging.\n")
@@ -852,6 +883,15 @@ def build_source_pr_body(
         lines.append("## Edits applied in this PR\n")
         for m in applied_messages:
             lines.append(f"- {m}")
+        lines.append("")
+
+    if llms_txt_touched:
+        lines.append("## llms.txt review needed\n")
+        lines.append("This PR edited files referenced from `docs/llms.txt`. Confirm")
+        lines.append("the curated index still accurately describes them, and update")
+        lines.append("`docs/llms.txt` in this branch if the framing has shifted.\n")
+        for p in sorted(llms_txt_touched):
+            lines.append(f"- `{p}`")
         lines.append("")
 
     if skipped_messages:
@@ -975,11 +1015,16 @@ def main(argv: Iterable[str] = ()) -> int:
             reports.append(call_claude_for_source(anthropic_client, change))
 
     applied_messages: list[str] = []
+    applied_paths: set[str] = set()
     skipped_messages: list[str] = []
     for r in reports:
         for e in r.edits:
             ok, msg = apply_edit(e)
-            (applied_messages if ok else skipped_messages).append(msg)
+            if ok:
+                applied_messages.append(msg)
+                applied_paths.add(e.path)
+            else:
+                skipped_messages.append(msg)
 
     # Persist watch-pipeline state changes before pipeline B reads state again.
     save_state(state_after_watch)
@@ -999,7 +1044,11 @@ def main(argv: Iterable[str] = ()) -> int:
             commit_msg=commit_msg,
             pr_title=f"Weekly source check: {len(changes)} change(s) detected",
             pr_body=build_source_pr_body(
-                reports, watch_errors, applied_messages, skipped_messages
+                reports,
+                watch_errors,
+                applied_messages,
+                skipped_messages,
+                applied_paths & llms_txt_referenced_pages(),
             ),
             labels=["agent", "source-monitor"],
         )

@@ -1,0 +1,59 @@
+# Responsible Clinical AI
+
+> A builder's blueprint and a buyer's reference checklist for teams working with generative-AI clinical decision support. Written for the engineers, clinicians, and leaders who have to make it work in practice.
+
+This site is a living document. Content is markdown under `docs/`, maintained on GitHub at <https://github.com/david-j-cox/ai-ethics-governance-and-guardrails>. A weekly agent watches a curated source list and opens pull requests for the maintainer to review.
+
+If you are an LLM or an automated agent ingesting this site, the files below are the canonical, hand-curated entry points. Prefer these over crawling the full sitemap.
+
+## Start here
+
+- [Site index](https://responsible-clinical-ai.org/): top-level orientation and table of contents.
+- [Who this is for](https://responsible-clinical-ai.org/foundations/audience/): the audience and scope of the site.
+- [Principles](https://responsible-clinical-ai.org/foundations/principles/): the load-bearing commitments the rest of the site is built on.
+- [How to use this site](https://responsible-clinical-ai.org/foundations/how-to-use/): how the material is organized and how to navigate it.
+
+## Architecture (technical patterns)
+
+- [Deployment & data plane](https://responsible-clinical-ai.org/architecture/deployment/): hosting, PHI scope, and where model calls happen.
+- [Retrieval (RAG) over patient records](https://responsible-clinical-ai.org/architecture/rag/): grounding generations in the patient's own record.
+- [Grounding & hallucination mitigation](https://responsible-clinical-ai.org/architecture/grounding/): techniques to reduce confabulation in clinical contexts.
+- [Structured output & verification](https://responsible-clinical-ai.org/architecture/structured-output/): schemas, validation, and post-hoc checks.
+- [Audit, logging & explainability](https://responsible-clinical-ai.org/architecture/audit-logging/): what to log, why, and for whom.
+- [Agentic systems](https://responsible-clinical-ai.org/architecture/agents/): multi-step agents in clinical workflows and the additional risks they introduce.
+
+## Evaluation
+
+- [Methodology](https://responsible-clinical-ai.org/evaluation/methodology/): how to design clinical-AI evals that mean something.
+- [Bias & subgroup evaluation](https://responsible-clinical-ai.org/evaluation/bias/): subgroup analysis, what counts as harm, and where standard fairness metrics break.
+- [Ongoing monitoring & drift](https://responsible-clinical-ai.org/evaluation/monitoring/): post-deployment monitoring patterns.
+- [Red-teaming](https://responsible-clinical-ai.org/evaluation/red-team/): how to red-team a clinical AI system.
+- [Minimum criteria & rollback](https://responsible-clinical-ai.org/evaluation/minimum-criteria/): launch gates and the conditions that should trigger rollback.
+
+## Governance
+
+- [Clinician-in-the-loop](https://responsible-clinical-ai.org/governance/clinician-in-the-loop/): what genuine oversight requires (and what it isn't).
+- [What "training the model" actually means](https://responsible-clinical-ai.org/governance/training-the-model/): the term is overloaded; this disambiguates it for non-technical stakeholders.
+- [Informed consent](https://responsible-clinical-ai.org/governance/consent/): consent in AI-mediated clinical contexts.
+- [Accountability & liability](https://responsible-clinical-ai.org/governance/accountability/): who is on the hook when AI-assisted decisions go wrong.
+
+## Risks
+
+- [Domain spotlight: ABA treatment planning](https://responsible-clinical-ai.org/risks/aba/): a concrete failure-mode walkthrough in applied behavior analysis.
+
+## Reference
+
+- [Regulatory backdrop](https://responsible-clinical-ai.org/reference/regulatory/): FDA, ONC HTI, and the federal regulatory frame.
+- [Frameworks & standards](https://responsible-clinical-ai.org/reference/frameworks/): NIST AI RMF, CHAI, WHO, and other voluntary frameworks.
+- [Glossary](https://responsible-clinical-ai.org/reference/glossary/): defined terms used throughout the site.
+
+## Checklists (for direct use)
+
+- [Red flags audit](https://responsible-clinical-ai.org/checklists/red-flags/): warning signs to look for in a vendor pitch or internal proposal.
+- [Deployment readiness](https://responsible-clinical-ai.org/checklists/deployment-readiness/): pre-deployment checklist.
+- [Scan kit](https://responsible-clinical-ai.org/scan-kit/): downloadable artifacts for running an internal scan.
+
+## Optional
+
+- [Repository](https://github.com/david-j-cox/ai-ethics-governance-and-guardrails): source, issue tracker, contribution path.
+- [Source-monitoring agent](https://github.com/david-j-cox/ai-ethics-governance-and-guardrails/blob/main/agent/README.md): how the weekly content-update agent works.
