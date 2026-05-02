@@ -1,7 +1,10 @@
 site_name: Responsible Clinical AI
 site_description: A builder's blueprint for generative-AI clinical decision support.
 site_author: David J. Cox
-# site_url will be set when GH Pages domain is finalized
+site_url: https://responsible-clinical-ai.org/
+repo_url: https://github.com/david-j-cox/ai-ethics-governance-and-guardrails
+repo_name: david-j-cox/ai-ethics-governance-and-guardrails
+edit_uri: edit/dev/docs/
 
 theme:
   name: material
