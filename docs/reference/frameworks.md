@@ -56,6 +56,22 @@ A forthcoming voluntary certification (announced 2024) for organizations deployi
 
 ABA organizations more often accredited by **BHCOE**. No AI-specific standards from BHCOE as of early 2026, but their existing standards on documentation, supervision, and QI apply.
 
+## CASP: Practice Parameters for AI Use in ABA
+
+**Council of Autism Service Providers (CASP)**, *Practice Parameters for Artificial Intelligence Use in Applied Behavior Analysis*. <https://www.casproviders.org/practice-parameters-for-ai>.
+
+Field-level guidance for ABA organizations integrating AI tools into clinical workflows. Covers ethical, regulatory, oversight, and implementation considerations specific to autism services and ABA practice. The closest analogue to CHAI's assurance work, but written for the ABA context — including credentialed-clinician accountability, supervision structures, and the realities of ABA documentation and billing.
+
+The most field-specific operational reference available for ABA organizations standing up AI governance.
+
+## AIC-ABA: Ethical Guidelines for AI in ABA
+
+**AI Consortium for ABA (AIC-ABA)**, *Ethical Guidelines for AI in ABA* (2026). <https://www.aiaba.org/guidelines>.
+
+Consortium guidelines on responsible and ethical deployment of AI tools within ABA practice. Complements the CASP parameters: where CASP is oriented toward organizational practice and implementation, AIC-ABA is oriented toward the ethical commitments that should govern AI use across the field.
+
+Read together, these two documents form the de facto field-specific baseline for ABA AI governance, and should be read alongside the BACB Ethics Code rather than as a substitute for it.
+
 ## How these compose
 
 - **NIST AI RMF** is the lifecycle scaffolding.
@@ -63,5 +79,6 @@ ABA organizations more often accredited by **BHCOE**. No AI-specific standards f
 - **WHO** is the ethical commitments.
 - **HTI-1** is the transparency artifact.
 - **AMA** is the framing for physician/clinician roles.
+- **CASP** and **AIC-ABA** are the ABA field-specific operationalization and ethical commitments.
 
 A defensible governance program references all of them, picks the operational artifacts (model cards, eval reports, risk registers) that map to your context, and maintains them as living documents.

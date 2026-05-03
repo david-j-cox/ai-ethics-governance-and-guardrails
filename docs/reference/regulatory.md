@@ -62,7 +62,8 @@ For AI systems: payer requirements drive what your structured output schema must
 
 - **BACB Ethics Code for Behavior Analysts** (eff. 2022): applies to all credentialed behavior analysts. No AI-specific section yet, but existing standards on competence, technology, supervision, documentation, and effective treatment apply in full. The credentialed analyst is responsible for any plan bearing their name regardless of tools used.
 - **State licensure acts:** most incorporate the BACB Code by reference.
-- **BHCOE accreditation:** many ABA organizations are accredited by BHCOE; standards on documentation, supervision, and quality improvement apply.
+- **Accreditation:** many ABA organizations were historically accredited by BHCOE (Jade Health) or currently with the Autism Commission on Quality; standards on documentation, supervision, and quality improvement apply.
+
 
 ## Billing integrity (US)
 
