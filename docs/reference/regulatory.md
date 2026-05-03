@@ -36,7 +36,7 @@ Document the carve-out reasoning in writing; review periodically as the system e
 State-level AI legislation moves fast enough that any list this site maintains will be out of date by the time you read it. Rather than try to keep an in-house tracker current, lean on the dedicated trackers that do this work professionally:
 
 - **NCSL AI legislation tracker** (National Conference of State Legislatures): <https://www.ncsl.org/technology-and-communication/artificial-intelligence-2024-legislation>. Bill-level coverage, state-by-state, updated regularly. Best starting point for orientation.
-- **Husch Blackwell AI Watch:** <https://www.huschblackwell.com/2024-state-ai-laws-and-policies>. Annotated tracker of enacted state AI laws and policies, with healthcare-relevant items called out. Useful for compliance scoping.
+- **Husch Blackwell 2024 AI State Law Tracker:** <https://www.huschblackwell.com/2024-ai-state-law-tracker>. Interactive map of state AI legislation, scoped to algorithmic bias/discrimination and automated employment decision tools. Narrower than NCSL on subject matter — useful for the bias/ADM slice of the picture, not a substitute for healthcare-specific tracking.
 - **Manatt Health Strategies AI tracker:** specialized analysis on healthcare-AI legislation and regulatory action; check current Manatt publications for the latest.
 
 A non-exhaustive snapshot of healthcare-relevant state laws active in early 2026, useful only as an orientation to the kinds of obligations to expect:
