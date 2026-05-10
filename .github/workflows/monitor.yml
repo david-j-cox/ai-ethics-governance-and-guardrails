@@ -32,9 +32,77 @@ jobs:
         run: pip install -r agent/requirements.txt
 
       - name: Run source monitor
+        id: monitor
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_BASE_REF: ${{ github.event.repository.default_branch }}
+          MONITOR_SUMMARY_PATH: ${{ runner.temp }}/monitor-summary.md
         run: python agent/monitor.py
+
+      - name: Upload summary as artifact
+        if: always() && hashFiles(format('{0}/monitor-summary.md', runner.temp)) != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-summary
+          path: ${{ runner.temp }}/monitor-summary.md
+          retention-days: 90
+
+      - name: Open status issue
+        if: always() && hashFiles(format('{0}/monitor-summary.md', runner.temp)) != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY_PATH: ${{ runner.temp }}/monitor-summary.md
+          HAD_CHANGES: ${{ steps.monitor.outputs.had_changes }}
+          PR_COUNT: ${{ steps.monitor.outputs.pr_count }}
+        run: |
+          set -euo pipefail
+          DATE=$(date -u +%Y-%m-%d)
+          if [ "${HAD_CHANGES:-false}" = "true" ]; then
+            TITLE="Weekly monitor (${DATE}) — review needed (${PR_COUNT:-0} PR(s))"
+          else
+            TITLE="Weekly monitor (${DATE}) — clean"
+          fi
+
+          ISSUE_URL=$(gh issue create \
+            --title "$TITLE" \
+            --body-file "$SUMMARY_PATH" \
+            --label monitor-status)
+
+          echo "Opened: $ISSUE_URL"
+
+          # Auto-close clean-week issues so they don't pile up. Errors and
+          # PR-bearing runs stay open until you ack them.
+          if [ "${HAD_CHANGES:-false}" != "true" ]; then
+            gh issue close "$ISSUE_URL" --comment "Auto-closed: clean week, no review needed."
+          fi
+
+      - name: Check email is configured
+        id: mail_configured
+        if: always()
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        run: |
+          if [ -n "${MAIL_USERNAME:-}" ] && [ -n "${MAIL_PASSWORD:-}" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::MAIL_USERNAME / MAIL_PASSWORD secrets not set; skipping email step."
+          fi
+
+      - name: Email summary
+        if: always() && steps.mail_configured.outputs.ok == 'true' && hashFiles(format('{0}/monitor-summary.md', runner.temp)) != ''
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: Source Monitor <${{ secrets.MAIL_USERNAME }}>
+          to: ${{ secrets.MAIL_USERNAME }}
+          subject: "[responsible-clinical-ai] Weekly monitor — ${{ steps.monitor.outputs.had_changes == 'true' && 'review needed' || 'clean' }}"
+          body: file://${{ runner.temp }}/monitor-summary.md
+          convert_markdown: true
