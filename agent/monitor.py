@@ -668,6 +668,387 @@ def call_claude_for_digest(
 
 
 # =====================================================================
+# Pipeline C: research-derived edits
+# =====================================================================
+#
+# Goal: take the top-N relevant items from pipeline B's triage, fetch each
+# one's full content, and ask Claude to draft an edit (or decline) on
+# specific docs/ pages. Result is a third PR the maintainer reviews.
+#
+# Constraints baked in below:
+#   - Authoritative summary pages (regulatory.md, frameworks.md) are
+#     off-limits; research findings get appended elsewhere or noted, not
+#     used to rewrite regulatory/standards prose.
+#   - Hedging language is mandatory and source-type-specific. arXiv items
+#     must be cited as preprints; AIID items as incident reports; journal
+#     articles as peer-reviewed.
+#   - Cap at MAX_RESEARCH_EDITS items per run regardless of triage volume.
+
+MAX_RESEARCH_EDITS = 10
+
+# Pages that must not be edited from research-derived content. They
+# summarize external authorities and changing them based on a paper or
+# incident would be a quality regression.
+RESEARCH_EDIT_DENYLIST: tuple[str, ...] = (
+    "docs/reference/regulatory.md",
+    "docs/reference/frameworks.md",
+    "docs/foundations/principles.md",  # load-bearing commitments; conservative
+)
+
+# Source-authority ranking used to pick the top-N when more than
+# MAX_RESEARCH_EDITS items pass triage. Higher = more authoritative.
+SOURCE_AUTHORITY: dict[str, int] = {
+    "ai-incident-database": 5,
+    "jmir-ai": 5,
+    "nature-digital-medicine": 5,
+    "behavior-analysis-in-practice": 4,
+    "journal-applied-behavior-analysis": 4,
+    "arxiv": 2,
+}
+
+
+@dataclass
+class ResearchEdit:
+    """A drafted edit derived from a research-feed item."""
+    entry: FeedEntry
+    fetched_content: str
+    summary: str
+    edits: list[ProposedEdit] = field(default_factory=list)
+    error: str = ""
+
+
+def rank_for_research_edits(triaged: list[TriagedEntry]) -> list[TriagedEntry]:
+    """Return relevant items ranked by source authority, capped at MAX_RESEARCH_EDITS."""
+    relevant = [t for t in triaged if t.relevant and t.pitch]
+    relevant.sort(
+        key=lambda t: SOURCE_AUTHORITY.get(t.entry.source_id, 1),
+        reverse=True,
+    )
+    return relevant[:MAX_RESEARCH_EDITS]
+
+
+def fetch_research_content(entry: FeedEntry, client: httpx.Client) -> tuple[str, str]:
+    """Fetch the link target and extract main content. Returns (content, error).
+
+    Trafilatura handles abstract pages (arXiv, AIID, journals) well. Full PDFs
+    are skipped — we accept that abstract + feed summary is enough context.
+    """
+    if not entry.link:
+        return "", "no link on entry"
+    try:
+        resp = client.get(entry.link, follow_redirects=True)
+        resp.raise_for_status()
+    except httpx.HTTPError as e:
+        return "", f"fetch error: {e}"
+
+    extracted = trafilatura.extract(resp.text, include_comments=False, include_tables=False)
+    if not extracted:
+        # Fallback: use the feed-supplied summary so we don't drop the item
+        # entirely just because the link target is JS-heavy.
+        if entry.summary:
+            return entry.summary, ""
+        return "", "trafilatura returned no content and no feed summary available"
+    return extracted.strip()[:12000], ""
+
+
+def build_site_map() -> str:
+    """Return a compact markdown index of docs/ pages for Claude.
+
+    Per page: title (first H1), section headings (H2/H3), llms.txt-curated flag.
+    Skips index.md files since they're navigation, not content. Output capped
+    at ~5KB to keep prompt tokens bounded.
+    """
+    import re
+
+    curated = llms_txt_referenced_pages()
+    lines: list[str] = ["# Site map (docs/)", ""]
+
+    for path in sorted(DOCS_ROOT.rglob("*.md")):
+        rel = f"docs/{path.relative_to(DOCS_ROOT)}"
+        if path.name == "index.md":
+            continue
+        if rel in RESEARCH_EDIT_DENYLIST:
+            # Still list them but mark as no-edit so Claude doesn't pick them.
+            denied = " (DO NOT EDIT — authoritative summary)"
+        else:
+            denied = ""
+        is_curated = " [curated]" if rel in curated else ""
+
+        text = path.read_text()
+        title = ""
+        h1_match = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+        if h1_match:
+            title = h1_match.group(1).strip()
+        sections = re.findall(r"^#{2,3}\s+(.+)$", text, re.MULTILINE)
+
+        lines.append(f"## `{rel}`{is_curated}{denied}")
+        if title:
+            lines.append(f"_{title}_")
+        if sections:
+            preview = sections[:8]
+            lines.append("Sections: " + " · ".join(s.strip() for s in preview))
+        lines.append("")
+
+    blob = "\n".join(lines)
+    if len(blob) > 6000:
+        blob = blob[:6000] + "\n\n_(site map truncated)_\n"
+    return blob
+
+
+RESEARCH_EDIT_SYSTEM = """You are the research-integration agent for the Responsible Clinical AI documentation site.
+
+Each invocation gives you ONE relevant item from a curated feed (arXiv, AIID, JMIR, Nature Digital Medicine, behavior-analysis journals, provider blogs) and asks: should this update the site, and if so, where and how?
+
+You have:
+- The item's title, source, link, and extracted content (often an abstract).
+- A site map of docs/ pages with their titles and section headings.
+- The current contents of any pages you decide are candidate edit targets.
+
+Your output is one of:
+- One or more `replace` / `append` edits on docs/ pages.
+- A `no-edit` decision with rationale (e.g., "interesting but not actionable yet", "already covered on docs/X.md").
+
+Hard rules:
+1. **Conservative bar.** Edit only when the item materially changes a recommendation on the site, surfaces a new failure mode worth listing, or adds a concrete deployment lesson. Most relevant items will be `no-edit` with a "would-be useful but not strong enough" rationale. That is correct.
+
+2. **Hedge by source type.** Cite items appropriately:
+   - arXiv → "a 2026 preprint reports..." (NOT peer-reviewed)
+   - JMIR AI / Nature Digital Medicine / behavior-analysis journals → "X et al. (YEAR) report..." (peer-reviewed)
+   - AI Incident Database → "the AI Incident Database documents..." (incident report, not finding)
+   - Provider blog → "VENDOR's NAME (YEAR) describes..." (vendor source)
+
+3. **Authoritative pages are off-limits.** You will see pages marked `DO NOT EDIT — authoritative summary`. Never propose edits to these. Pick a different page or `no-edit`.
+
+4. **Small diffs.** Prefer surgical find/replace or appending one bullet under an existing list. No new sections, no reordering, no rewriting paragraphs.
+
+5. **Match the page's voice.** The site is plain English, opinionated, no em dashes, written for both builders and buyers.
+
+6. **Cite the source.** Every edit must include a link to the item in its replace text or append text. Format: `[short descriptor](URL)`.
+
+7. **Never invent.** If the item's claims are unclear from the extracted content, `no-edit` and explain.
+
+8. **One link's worth, not a synthesis.** Don't try to write multi-source paragraphs. Each edit references this one item.
+
+Return strict JSON matching the schema you'll be shown."""
+
+
+RESEARCH_EDIT_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "properties": {
+        "summary": {"type": "string"},
+        "edits": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "path": {"type": "string"},
+                    "rationale": {"type": "string"},
+                    "patch_kind": {"type": "string", "enum": ["replace", "append", "no-edit"]},
+                    "find": {"type": "string"},
+                    "replace": {"type": "string"},
+                },
+                "required": ["path", "rationale", "patch_kind", "find", "replace"],
+            },
+        },
+    },
+    "required": ["summary", "edits"],
+}
+
+
+def build_research_user_message(
+    entry: FeedEntry, content: str, site_map: str
+) -> str:
+    parts: list[str] = []
+    parts.append("# Research item")
+    parts.append("")
+    parts.append(f"**Source:** {entry.source_id}")
+    parts.append(f"**Title:** {entry.title}")
+    parts.append(f"**Link:** {entry.link}")
+    if entry.published:
+        parts.append(f"**Published:** {entry.published}")
+    parts.append("")
+    parts.append("## Extracted content")
+    parts.append("")
+    parts.append("```")
+    parts.append(content[:8000])
+    parts.append("```")
+    parts.append("")
+    parts.append(site_map)
+    parts.append("")
+    parts.append(
+        "Decide: which docs/ page(s), if any, should integrate this item? Return "
+        "edits or no-edit with rationale. Then, in a follow-up turn, you'll see "
+        "the full contents of any page paths you reference."
+    )
+    return "\n".join(parts)
+
+
+def call_claude_for_research_edit(
+    client: Anthropic, entry: FeedEntry, content: str, site_map: str
+) -> ResearchEdit:
+    """Two-pass approach would be ideal; we collapse to one pass by sending the
+    site map up front and letting Claude pick paths it sees there. We then
+    read the chosen pages, apply edits, and validate."""
+    user_text = build_research_user_message(entry, content, site_map)
+
+    try:
+        with client.messages.stream(
+            model=MODEL,
+            max_tokens=MAX_OUTPUT_TOKENS,
+            thinking={"type": "adaptive"},
+            output_config={
+                "effort": "high",
+                "format": {"type": "json_schema", "schema": RESEARCH_EDIT_SCHEMA},
+            },
+            system=[
+                {
+                    "type": "text",
+                    "text": RESEARCH_EDIT_SYSTEM,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+            messages=[{"role": "user", "content": user_text}],
+        ) as stream:
+            final = stream.get_final_message()
+    except APIError as e:
+        return ResearchEdit(
+            entry=entry, fetched_content=content, summary="", error=f"Claude API error: {e}"
+        )
+
+    text_blocks = [b.text for b in final.content if b.type == "text"]
+    if not text_blocks:
+        return ResearchEdit(
+            entry=entry, fetched_content=content, summary="", error="no text output from model"
+        )
+    raw = text_blocks[0].strip()
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as e:
+        return ResearchEdit(
+            entry=entry,
+            fetched_content=content,
+            summary="",
+            error=f"could not parse JSON output: {e}\nraw: {raw[:500]}",
+        )
+
+    edits = []
+    for e in data.get("edits", []):
+        path = e.get("path", "")
+        # Hard-enforce the denylist regardless of what Claude returned.
+        if path in RESEARCH_EDIT_DENYLIST and e.get("patch_kind") != "no-edit":
+            edits.append(
+                ProposedEdit(
+                    path=path,
+                    rationale=(
+                        f"Edit suppressed: `{path}` is on the research-edit denylist "
+                        f"(authoritative summary page). Original rationale: {e.get('rationale','')}"
+                    ),
+                    patch_kind="no-edit",
+                )
+            )
+            continue
+        edits.append(
+            ProposedEdit(
+                path=path,
+                rationale=e.get("rationale", ""),
+                patch_kind=e.get("patch_kind", "no-edit"),
+                find=e.get("find", ""),
+                replace=e.get("replace", ""),
+            )
+        )
+
+    return ResearchEdit(
+        entry=entry,
+        fetched_content=content,
+        summary=data.get("summary", ""),
+        edits=edits,
+    )
+
+
+def run_research_edits_pipeline(
+    triaged: list[TriagedEntry],
+    anthropic_client: Anthropic | None,
+    http: httpx.Client,
+) -> list[ResearchEdit]:
+    """Returns the list of ResearchEdit results (including no-edit decisions)."""
+    if not anthropic_client:
+        return []
+
+    candidates = rank_for_research_edits(triaged)
+    if not candidates:
+        return []
+
+    print(f"[monitor] research-edits: {len(candidates)} candidates after ranking")
+    site_map = build_site_map()
+    results: list[ResearchEdit] = []
+    for t in candidates:
+        print(f"[monitor] research-edits: fetching {t.entry.entry_id[:60]}")
+        content, fetch_err = fetch_research_content(t.entry, http)
+        if fetch_err:
+            results.append(
+                ResearchEdit(
+                    entry=t.entry,
+                    fetched_content="",
+                    summary="",
+                    error=f"fetch failed: {fetch_err}",
+                )
+            )
+            continue
+        result = call_claude_for_research_edit(anthropic_client, t.entry, content, site_map)
+        results.append(result)
+    return results
+
+
+def build_research_pr_body(results: list[ResearchEdit], applied: list[str], skipped: list[str]) -> str:
+    lines: list[str] = []
+    lines.append("Research-derived edits PR. Review every change before merging.\n")
+    lines.append("This PR is opened by the source-monitoring agent's research-edit pipeline.")
+    lines.append("It takes the top relevant items from this week's research digest, reads each")
+    lines.append("source, and proposes specific edits on docs/ pages. Each item is reviewed")
+    lines.append("individually below.\n")
+    lines.append("---\n")
+
+    for r in results:
+        lines.append(f"### `{r.entry.source_id}` — [{r.entry.title}]({r.entry.link})")
+        if r.error:
+            lines.append(f"_Error: {r.error}_\n")
+            continue
+        lines.append(f"**Summary.** {r.summary}\n")
+        if not r.edits:
+            lines.append("_No edits proposed._\n")
+            continue
+        no_edits = [e for e in r.edits if e.patch_kind == "no-edit"]
+        real_edits = [e for e in r.edits if e.patch_kind != "no-edit"]
+        if real_edits:
+            lines.append("**Edits proposed:**")
+            for e in real_edits:
+                lines.append(f"- `{e.path}` ({e.patch_kind}): {e.rationale}")
+        if no_edits:
+            lines.append("**No-edit decisions:**")
+            for e in no_edits:
+                lines.append(f"- `{e.path}`: {e.rationale}")
+        lines.append("")
+
+    if applied:
+        lines.append("## Edits applied in this PR\n")
+        for m in applied:
+            lines.append(f"- {m}")
+        lines.append("")
+
+    if skipped:
+        lines.append("## Edits skipped (need human attention)\n")
+        for m in skipped:
+            lines.append(f"- {m}")
+        lines.append("")
+
+    lines.append("---")
+    lines.append(f"_Generated by `agent/monitor.py` on {datetime.now(timezone.utc).isoformat()}._")
+    return "\n".join(lines)
+
+
+# =====================================================================
 # Git + GitHub helpers
 # =====================================================================
 
@@ -990,11 +1371,18 @@ def build_run_summary(
     feed_errors: list[tuple[Source, str]],
     triage_error: str,
     digest_pr_url: str | None,
+    research_results: list[ResearchEdit] | None = None,
+    research_applied: list[str] | None = None,
+    research_skipped: list[str] | None = None,
+    research_pr_url: str | None = None,
 ) -> str:
     """One markdown blob describing what this run did. Used by job summary,
     status issue body, and email body. Always produced, including clean weeks."""
+    research_results = research_results or []
+    research_applied = research_applied or []
+    research_skipped = research_skipped or []
     relevant = [t for t in triaged if t.relevant and t.pitch]
-    pr_count = sum(1 for u in (watch_pr_url, digest_pr_url) if u)
+    pr_count = sum(1 for u in (watch_pr_url, digest_pr_url, research_pr_url) if u)
     err_count = len(watch_errors) + len(feed_errors)
 
     if changes or len(relevant) or err_count:
@@ -1023,6 +1411,20 @@ def build_run_summary(
         lines.append(f"  - Source-update PR: {watch_pr_url}")
     if digest_pr_url:
         lines.append(f"  - Research-digest PR: {digest_pr_url}")
+    if research_pr_url:
+        lines.append(f"  - Research-derived edits PR: {research_pr_url}")
+    if research_results:
+        no_edit_count = sum(
+            1 for r in research_results for e in r.edits if e.patch_kind == "no-edit"
+        )
+        edit_count = sum(
+            1 for r in research_results for e in r.edits if e.patch_kind != "no-edit"
+        )
+        lines.append(
+            f"- Research-derived edits: **{len(research_results)}** items reviewed, "
+            f"{edit_count} drafted, {no_edit_count} declined, "
+            f"{len(research_applied)} applied, {len(research_skipped)} skipped"
+        )
     lines.append("")
 
     if reports:
@@ -1078,6 +1480,32 @@ def build_run_summary(
                     lines.append(f"- [{title}]({t.entry.link}) — {t.pitch}")
                 else:
                     lines.append(f"- {title} — {t.pitch}")
+            lines.append("")
+
+    if research_results:
+        lines.append("## Research-derived edits")
+        lines.append("")
+        for r in research_results:
+            link = f"[{r.entry.title.strip()}]({r.entry.link})" if r.entry.link else r.entry.title.strip()
+            lines.append(f"### `{r.entry.source_id}` — {link}")
+            if r.error:
+                lines.append(f"_Error: {r.error}_")
+                lines.append("")
+                continue
+            if r.summary:
+                lines.append(f"**Decision summary.** {r.summary}")
+            real_edits = [e for e in r.edits if e.patch_kind != "no-edit"]
+            no_edits = [e for e in r.edits if e.patch_kind == "no-edit"]
+            if real_edits:
+                lines.append("**Edits drafted:**")
+                for e in real_edits:
+                    lines.append(f"- `{e.path}` ({e.patch_kind}) — {e.rationale}")
+            if no_edits:
+                lines.append("**Declined (why no edit):**")
+                for e in no_edits:
+                    lines.append(f"- `{e.path}` — {e.rationale}")
+            if not r.edits:
+                lines.append("_Claude proposed nothing for this item._")
             lines.append("")
 
     if triage_error:
@@ -1248,11 +1676,71 @@ def main(argv: Iterable[str] = ()) -> int:
         if digest_pr_url:
             print(f"[monitor] digest PR: {digest_pr_url}")
 
+    # ------------- Pipeline C: research-derived edits -------------
+
+    research_results: list[ResearchEdit] = []
+    research_pr_url: str | None = None
+    research_applied: list[str] = []
+    research_skipped: list[str] = []
+    if triaged:
+        with httpx.Client(
+            headers={"User-Agent": USER_AGENT},
+            timeout=HTTP_TIMEOUT,
+            follow_redirects=True,
+        ) as http:
+            research_results = run_research_edits_pipeline(triaged, anthropic_client, http)
+
+        for r in research_results:
+            for e in r.edits:
+                ok, msg = apply_edit(e)
+                if ok:
+                    research_applied.append(msg)
+                else:
+                    # apply_edit returns (False, ...) for "no-edit" too; only
+                    # treat real failures as skipped (rationale already
+                    # captured in the PR body).
+                    if e.patch_kind != "no-edit":
+                        research_skipped.append(msg)
+
+        if research_applied or research_skipped:
+            commit_msg = (
+                f"chore(agent): weekly research-derived edits "
+                f"({len(research_applied)} applied, {len(research_skipped)} skipped)"
+            )
+            files = ["docs/"] if research_applied else []
+            if not files:
+                # Nothing applied; don't open a PR with no diff.
+                print(
+                    f"[monitor] research-edits: {len(research_results)} items reviewed, "
+                    f"0 edits applied, {len(research_skipped)} skipped"
+                )
+            else:
+                research_pr_url = commit_branch_and_open_pr(
+                    branch_prefix="agent/research-edits",
+                    files_to_stage=files,
+                    commit_msg=commit_msg,
+                    pr_title=(
+                        f"Weekly research-derived edits: "
+                        f"{len(research_applied)} edit(s) drafted"
+                    ),
+                    pr_body=build_research_pr_body(
+                        research_results, research_applied, research_skipped
+                    ),
+                    labels=["agent", "research-edits"],
+                )
+                if research_pr_url:
+                    print(f"[monitor] research-edits PR: {research_pr_url}")
+        else:
+            print(
+                f"[monitor] research-edits: {len(research_results)} items reviewed, "
+                "no edits proposed"
+            )
+
     # If no PR was opened (clean week, OR PR creation failed), still push the
     # state file so we don't re-discover the same content next run. Without
     # this, a PR-creation bug or a clean first run leaves seen_ids empty
     # forever and we re-pay the LLM cost every week.
-    if not watch_pr_url and not digest_pr_url:
+    if not watch_pr_url and not digest_pr_url and not research_pr_url:
         token = os.environ.get("GITHUB_TOKEN")
         repo = github_repo_slug()
         target = resolve_base_branch(repo, token) if (repo and token) else "main"
@@ -1275,9 +1763,19 @@ def main(argv: Iterable[str] = ()) -> int:
         feed_errors=feed_errors,
         triage_error=triage_error,
         digest_pr_url=digest_pr_url,
+        research_results=research_results,
+        research_applied=research_applied,
+        research_skipped=research_skipped,
+        research_pr_url=research_pr_url,
     )
-    pr_urls = [u for u in (watch_pr_url, digest_pr_url) if u]
-    had_changes = bool(changes or [t for t in triaged if t.relevant] or watch_errors or feed_errors)
+    pr_urls = [u for u in (watch_pr_url, digest_pr_url, research_pr_url) if u]
+    had_changes = bool(
+        changes
+        or [t for t in triaged if t.relevant]
+        or watch_errors
+        or feed_errors
+        or research_results
+    )
     write_summary_outputs(summary_md, had_changes=had_changes, pr_urls=pr_urls)
 
     return 0
