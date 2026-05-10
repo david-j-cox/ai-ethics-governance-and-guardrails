@@ -38,22 +38,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_BASE_REF: ${{ github.event.repository.default_branch }}
-          MONITOR_SUMMARY_PATH: ${{ runner.temp }}/monitor-summary.md
+          MONITOR_SUMMARY_PATH: ${{ github.workspace }}/monitor-summary.md
         run: python agent/monitor.py
 
       - name: Upload summary as artifact
-        if: always() && hashFiles(format('{0}/monitor-summary.md', runner.temp)) != ''
+        if: always() && hashFiles('monitor-summary.md') != ''
         uses: actions/upload-artifact@v4
         with:
           name: monitor-summary
-          path: ${{ runner.temp }}/monitor-summary.md
+          path: ${{ github.workspace }}/monitor-summary.md
           retention-days: 90
 
       - name: Open status issue
-        if: always() && hashFiles(format('{0}/monitor-summary.md', runner.temp)) != ''
+        if: always() && hashFiles('monitor-summary.md') != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SUMMARY_PATH: ${{ runner.temp }}/monitor-summary.md
+          SUMMARY_PATH: ${{ github.workspace }}/monitor-summary.md
           HAD_CHANGES: ${{ steps.monitor.outputs.had_changes }}
           PR_COUNT: ${{ steps.monitor.outputs.pr_count }}
         run: |
@@ -93,7 +93,7 @@ jobs:
           fi
 
       - name: Email summary
-        if: always() && steps.mail_configured.outputs.ok == 'true' && hashFiles(format('{0}/monitor-summary.md', runner.temp)) != ''
+        if: always() && steps.mail_configured.outputs.ok == 'true' && hashFiles('monitor-summary.md') != ''
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -104,5 +104,5 @@ jobs:
           from: Source Monitor <${{ secrets.MAIL_USERNAME }}>
           to: ${{ secrets.MAIL_USERNAME }}
           subject: "[responsible-clinical-ai] Weekly monitor — ${{ steps.monitor.outputs.had_changes == 'true' && 'review needed' || 'clean' }}"
-          body: file://${{ runner.temp }}/monitor-summary.md
+          body: file://${{ github.workspace }}/monitor-summary.md
           convert_markdown: true
