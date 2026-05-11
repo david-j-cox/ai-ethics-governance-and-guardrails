@@ -16,4 +16,4 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Parse agent/state.json
-        run: python -c "import json, sys; json.load(open('agent/state.json')); print('agent/state.json: valid JSON')"
+        run: python -m json.tool agent/state.json > /dev/null
