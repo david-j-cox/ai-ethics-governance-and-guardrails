@@ -1,0 +1,19 @@
+name: Validate agent state
+
+on:
+  pull_request:
+    paths:
+      - "agent/state.json"
+  push:
+    branches: [main, dev]
+    paths:
+      - "agent/state.json"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse agent/state.json
+        run: python -m json.tool agent/state.json > /dev/null
