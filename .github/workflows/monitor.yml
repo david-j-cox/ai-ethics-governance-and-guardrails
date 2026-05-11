@@ -31,6 +31,15 @@ jobs:
       - name: Install agent dependencies
         run: pip install -r agent/requirements.txt
 
+      - name: Register state.json merge driver
+        # .gitattributes declares `agent/state.json merge=statejson`; the
+        # driver lives in repo state and must be registered per-environment.
+        # Catches rebases the agent does on the runner. GitHub's server-side
+        # "Update branch" button runs outside this env so it cannot use the
+        # driver — that case is covered by self-heal in agent/repair_state.py
+        # (called from load_state) and the validate-state PR check.
+        run: git config merge.statejson.driver "python agent/repair_state.py --merge-driver %O %A %B"
+
       - name: Run source monitor
         id: monitor
         env:
