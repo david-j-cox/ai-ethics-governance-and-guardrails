@@ -103,9 +103,15 @@ def load_sources() -> list[Source]:
 
 
 def load_state() -> dict[str, dict]:
-    if STATE_PATH.exists():
-        return json.loads(STATE_PATH.read_text())
-    return {}
+    if not STATE_PATH.exists():
+        return {}
+    # Self-heal a state.json mangled by a server-side 3-way merge (where
+    # custom git merge drivers can't run). No-op if the file is already valid.
+    from repair_state import repair
+
+    if repair(STATE_PATH):
+        print("[monitor] repaired corrupted state.json before load")
+    return json.loads(STATE_PATH.read_text())
 
 
 def save_state(state: dict[str, dict]) -> None:
