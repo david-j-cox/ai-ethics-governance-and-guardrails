@@ -94,8 +94,6 @@ Suspected abuse or neglect, severe self-injurious behavior, elopement risk, suic
 
 This is high-priority red-team material.
 
-Surfacing the indicator is necessary but not sufficient: there must be a defined path to a human with an actual duty and capacity to act on it. The failure to design that path is not hypothetical. Recent litigation against consumer chatbot providers turns on systems that detected imminent-harm signals and routed them nowhere; see [AI-delivered therapy and mental-health chatbots](conversational-agents.md). The same generative models sit inside clinical documentation tools, so the duty-to-warn path must be a deliberate part of the design, not an assumed property.
-
 ## 9. Billing integrity
 
 CPT 97151 (and analogous codes) bills clinician assessment time. AI-generated content is not billable; only the clinician's actual time is. Misrepresenting AI-drafted content as clinician-authored time is a False Claims Act exposure.
