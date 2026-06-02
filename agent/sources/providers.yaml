@@ -3,7 +3,7 @@
 
 sources:
   - id: anthropic-trust
-    url: https://privacy.anthropic.com/
+    url: https://privacy.claude.com/
     type: html
     cadence: weekly
     applies_to:

@@ -9,7 +9,7 @@
 
 sources:
   - id: arxiv-cs-cl-clinical-llm
-    url: http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare+OR+abs:patient%29+AND+%28abs:LLM+OR+abs:%22language+model%22+OR+abs:generation%29&sortBy=submittedDate&sortOrder=descending&max_results=30
+    url: https://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare+OR+abs:patient%29+AND+%28abs:LLM+OR+abs:%22language+model%22+OR+abs:generation%29&sortBy=submittedDate&sortOrder=descending&max_results=30
     type: feed
     cadence: weekly
     notes: |
@@ -17,7 +17,7 @@ sources:
       Atom feed via the arXiv API. Top 30 most recent submissions.
 
   - id: arxiv-cs-cy-clinical-ai-ethics
-    url: http://export.arxiv.org/api/query?search_query=cat:cs.CY+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare%29+AND+%28abs:AI+OR+abs:%22machine+learning%22%29&sortBy=submittedDate&sortOrder=descending&max_results=20
+    url: https://export.arxiv.org/api/query?search_query=cat:cs.CY+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare%29+AND+%28abs:AI+OR+abs:%22machine+learning%22%29&sortBy=submittedDate&sortOrder=descending&max_results=20
     type: feed
     cadence: weekly
     notes: |

@@ -39,6 +39,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -468,9 +469,46 @@ def feed_entry_id(entry: dict) -> str:
 
 
 def fetch_feed(source: Source) -> tuple[list[FeedEntry], str]:
-    """Fetch and parse a feed. Returns (entries, error)."""
+    """Fetch and parse a feed. Returns (entries, error).
+
+    We fetch the bytes ourselves via httpx rather than letting feedparser fetch
+    the URL directly, for two reasons proven against the live feeds:
+
+    - Cross-host redirects. Springer's ``search.rss`` answers with a 303 that
+      feedparser does not follow, so the feed parsed as empty/invalid. httpx
+      with ``follow_redirects`` resolves it to valid XML.
+    - Rate limiting. arXiv returns a plain-text "Rate exceeded" body on HTTP 429,
+      which otherwise surfaces as a misleading XML parse error ("mismatched tag").
+      Seeing the status lets us back off and retry instead of reporting a parse
+      failure.
+    """
+    headers = {"User-Agent": USER_AGENT}
+    content: bytes | None = None
+    last_error = ""
+    for attempt in range(3):
+        try:
+            with httpx.Client(
+                headers=headers, timeout=HTTP_TIMEOUT, follow_redirects=True
+            ) as client:
+                resp = client.get(source.url)
+        except httpx.HTTPError as e:
+            last_error = f"fetch error: {e}"
+            time.sleep(3 * (attempt + 1))
+            continue
+        if resp.status_code == 429 or resp.status_code >= 500:
+            # arXiv asks clients to slow down; back off and retry.
+            last_error = f"http {resp.status_code} (rate limited or server error)"
+            time.sleep(5 * (attempt + 1))
+            continue
+        if resp.status_code >= 400:
+            return [], f"http {resp.status_code}"
+        content = resp.content
+        break
+    if content is None:
+        return [], last_error or "feed fetch failed after retries"
+
     try:
-        parsed = feedparser.parse(source.url, agent=USER_AGENT)
+        parsed = feedparser.parse(content)
     except Exception as e:  # feedparser rarely raises, but be safe
         return [], f"feedparser error: {e}"
 
@@ -513,7 +551,10 @@ def detect_new_entries(
     updated_state = dict(state)
     now = datetime.now(timezone.utc).isoformat()
 
-    for source in feed_sources:
+    for i, source in enumerate(feed_sources):
+        # Be polite between requests; arXiv in particular rate-limits bursts.
+        if i > 0:
+            time.sleep(3)
         entries, err = fetch_feed(source)
         if err:
             errors.append((source, err))
