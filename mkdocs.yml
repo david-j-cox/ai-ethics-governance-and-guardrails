@@ -110,6 +110,7 @@ nav:
   - Risks:
       - risks/index.md
       - "Domain spotlight: ABA treatment planning": risks/aba.md
+      - "Domain spotlight: AI-delivered therapy and mental-health chatbots": risks/conversational-agents.md
   - Reference:
       - reference/index.md
       - Regulatory backdrop: reference/regulatory.md

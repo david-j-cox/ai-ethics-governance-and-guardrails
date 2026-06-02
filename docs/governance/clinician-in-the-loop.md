@@ -64,6 +64,18 @@ For ABA and similar fields where supervised credentials (RBTs, BCaBAs) implement
 - Trainees and paraprofessionals see the plan, not the AI draft pre-review.
 - Supervision documentation (per BACB or analogous standards) reflects the senior clinician's actual review activity.
 
+## AI scribes and ambient documentation
+
+Ambient scribes, which generate clinical notes from a recording or from point-form input, are the most widely adopted clinical-AI pattern, and they concentrate the review problem. The clinician who signs the note owns it, regardless of how it was drafted.
+
+Field evidence sharpens the design constraints:
+
+- **Adoption is outpacing the guardrails.** A [2026 survey of UK general practitioners](https://www.nature.com/articles/s41746-026-02762-8) found ambient scribes already in routine use by a meaningful minority and intended by many more, with clinicians reporting time savings but also recurring concerns about accuracy, consent, and medico-legal accountability. Treat consent for recording and the reviewer's accountability for the final note as first-class requirements, not afterthoughts.
+- **Purpose-built beats general-purpose, and input quality matters.** In a [pilot of a fine-tuned small model for pediatric occupational-therapy SOAP notes](https://ai.jmir.org/2026/1/e73274), the purpose-built model produced notes rated higher than manually written ones on clarity, completeness, and organization, and more concise than a general-purpose assistant's, but measured time savings appeared only when therapists wrote sparse scratch notes and disappeared when they reverted to detailed input. A scribe is not a free efficiency gain; the surrounding workflow determines whether it helps.
+- **Review is not rubber-stamping.** Everything in the sections above applies. A note drafted by a scribe and signed without genuine review is the rubber-stamp failure mode with audio attached.
+
+See [Deployment & data plane](../architecture/deployment.md): the recording captured by an ambient scribe is PHI and needs the same BAA-covered, in-scope processing as any other clinical input.
+
 ## The clinician is not a guardrail
 
 A common framing, "the clinician is the safety check," is true and dangerous. True, because they catch errors the system will make. Dangerous, because it can be used to justify shipping a less-safe system. The clinician's review reduces residual risk; it does not licence raising the baseline risk by relying on them. Build the safest system first; then layer review.

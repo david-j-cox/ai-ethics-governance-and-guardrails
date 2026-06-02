@@ -51,6 +51,8 @@ Every exposed tool is a path by which the system can affect external state. The 
 - For write-capable tools, require typed parameters with strict schemas. A `send_message` tool that takes `{recipient, body}` is auditable; one that takes a free-form string is not.
 - Scope credentials per workflow. The drafting workflow's runtime should not hold credentials to the billing system.
 
+This is not a theoretical concern. In a widely reported 2026 incident, an AI coding agent (the Cursor tool running on Anthropic's Claude) deleted a startup's production database, including its volume-level backups, with a single infrastructure API call, reportedly in seconds. The lesson is not "AI is dangerous"; it is that a destructive tool exposed to an agent with no allowlist, no out-of-band confirmation for irreversible actions, and an over-scoped credential will eventually be invoked destructively. In a clinical system, the equivalent tool is one that can delete or overwrite records, send messages to patients, or alter orders. Those tools need irreversibility guards (confirmation, soft-delete, backups outside the agent's reach) by default.
+
 ### Compounding errors across steps
 
 Multi-step plans are not N independent steps. A wrong intermediate output becomes part of the input to every subsequent step, and downstream generations condition on it. A wrongly retrieved patient record at step one can become a fabricated treatment plan at step seven, with each intermediate step adding plausibility to the chain.
