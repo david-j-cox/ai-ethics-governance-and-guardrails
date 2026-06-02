@@ -62,3 +62,13 @@ sources:
       AI Incident Database. Real-world failure write-ups; especially
       important for the risks/ section and red-team material.
 
+  - id: fedreg-hhs-hipaa
+    url: https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bagencies%5D%5B%5D=health-and-human-services-department&conditions%5Bterm%5D=HIPAA&per_page=20&order=newest
+    type: feed
+    cadence: weekly
+    notes: |
+      Federal Register documents from HHS matching "HIPAA" (rules, proposed
+      rules, notices). Replaces the hhs-ocr-hipaa link-check, whose hhs.gov URL
+      returns 403 from datacenter IPs. This API endpoint is built for
+      programmatic access and surfaces actual HIPAA regulatory activity.
+
