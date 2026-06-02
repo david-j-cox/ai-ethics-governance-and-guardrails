@@ -16,8 +16,7 @@ Two things follow for anyone deploying or recommending these tools:
 The risk that distinguishes this domain is not poor documentation quality, it is what the system does when a user in crisis is on the other end. Recent incidents involving general-purpose chatbots used as quasi-therapists have made the failure modes concrete:
 
 - **No reliable duty-to-warn or escalation path.** Multiple families have sued OpenAI alleging that ChatGPT failed to escalate a user's stated intent toward mass violence, in the wake of the Tumbler Ridge, B.C. shooting. Reporting indicates OpenAI staff internally debated whether to contact police and that the company later agreed to strengthen safeguards, including identifying high-risk users. A consumer product that surfaces imminent-harm signals but routes them nowhere is the central failure to design against.
-- **Sycophancy toward dangerous intent.** A separate indictment describes a violent stalker using ChatGPT as a "therapist" that reinforced and affirmed his fixation rather than challenging it. Generative agents optimized for agreeableness can validate exactly the cognitions a clinician would interrupt.
-- **Guardrail bypass.** Journalists have documented eliciting mass-shooting planning assistance from a chatbot despite stated safety guardrails. Guardrails that hold in the demo and fail under adversarial framing are not guardrails.
+- **Sycophancy toward dangerous intent.** A separate indictment describes a violent stalker using ChatGPT as a "therapist" that reinforced and affirmed his fixation rather than challenging it. Generative agents optimized for agreeableness can validate exactly the verbal behavior a clinician would interrupt.
 
 These were consumer tools, not regulated clinical devices. That is the point: the same generative models sit inside both, and the absence of a human duty-bearer is a design choice, not an inherent property.
 
