@@ -33,18 +33,6 @@ sources:
     notes: |
       ONC HTI rule series. HTI-1 finalized; HTI-2/3 proposals expand DSI scope.
 
-  - id: hhs-ocr-hipaa
-    url: https://www.hhs.gov/hipaa/for-professionals/index.html
-    type: link-check
-    cadence: monthly
-    applies_to:
-      - reference/regulatory.md
-      - architecture/deployment.md
-    notes: |
-      HHS OCR HIPAA guidance hub. The site bot-blocks content fetches
-      (returns 403), so we just verify the URL resolves. For substantive
-      HIPAA AI guidance, watch HHS press releases and NIST/ONC outputs.
-
   - id: ncsl-ai-legislation
     url: https://www.ncsl.org/technology-and-communication/artificial-intelligence-2024-legislation
     type: link-check
