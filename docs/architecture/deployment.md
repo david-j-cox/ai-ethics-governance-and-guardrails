@@ -21,6 +21,7 @@ Default consumer or developer-tier API access is **not** BAA-covered, even if th
 - [ ] **Zero data retention** confirmed in writing: prompts and completions are not retained for vendor model improvement or human review.
 - [ ] **Vendor-side telemetry** disabled or replaced with your own HIPAA-controlled logging.
 - [ ] Specific features in scope. Not all betas, tools, or model variants are BAA-eligible. Verify the exact configuration.
+- [ ] **BAA scope and version re-checked against the current agreement.** A BAA is scoped to specific products, plan tiers, and features, and that scope changes over time. A BAA signed for one product (for example, a provider's API) may not extend to a newer offering (an enterprise plan, a new tool) without signing a new agreement. Providers maintain an explicit list of eligible services; treat coverage as something to re-verify at each procurement and at each vendor product change, not a one-time check. (As of 2026, Anthropic's BAA is one concrete example: API and HIPAA-ready Enterprise are covered under separate, dated agreements, while Console, consumer tiers, and beta features are excluded.)
 - [ ] Data residency pinned to US (or your required region). HIPAA does not strictly mandate residency, but payer contracts and state law often do.
 - [ ] Model improvement opt-ins disabled.
 
