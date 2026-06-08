@@ -74,6 +74,13 @@ jobs:
             TITLE="Weekly monitor (${DATE}) — clean"
           fi
 
+          # Ensure the status label exists. gh issue create --label fails hard
+          # if the label is missing, so create it idempotently first.
+          gh label create monitor-status \
+            --color ededed \
+            --description "Weekly source-monitor status issues" \
+            2>/dev/null || true
+
           ISSUE_URL=$(gh issue create \
             --title "$TITLE" \
             --body-file "$SUMMARY_PATH" \
