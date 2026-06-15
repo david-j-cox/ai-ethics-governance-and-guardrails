@@ -17,12 +17,12 @@ jobs:
   monitor:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           # Need full history so the agent can branch and push
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -52,7 +52,7 @@ jobs:
 
       - name: Upload summary as artifact
         if: always() && hashFiles('monitor-summary.md') != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: monitor-summary
           path: ${{ github.workspace }}/monitor-summary.md
@@ -73,6 +73,13 @@ jobs:
           else
             TITLE="Weekly monitor (${DATE}) — clean"
           fi
+
+          # Ensure the status label exists. gh issue create --label fails hard
+          # if the label is missing, so create it idempotently first.
+          gh label create monitor-status \
+            --color ededed \
+            --description "Weekly source-monitor status issues" \
+            2>/dev/null || true
 
           ISSUE_URL=$(gh issue create \
             --title "$TITLE" \
@@ -103,7 +110,11 @@ jobs:
 
       - name: Email summary
         if: always() && steps.mail_configured.outputs.ok == 'true' && hashFiles('monitor-summary.md') != ''
-        uses: dawidd6/action-send-mail@v3
+        # Email is a best-effort notification; the status issue (opened above)
+        # is the source of truth. A rejected SMTP login or other mail failure
+        # must not turn the whole run red, since the monitoring work succeeded.
+        continue-on-error: true
+        uses: dawidd6/action-send-mail@v17
         with:
           server_address: smtp.gmail.com
           server_port: 465
