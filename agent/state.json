@@ -1,6 +1,6 @@
 {
   "ai-incident-database": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "00fc9478-5c1e-520c-be48-363c31ada481",
       "a76e405f-2598-5b71-b10e-4ed42ef78c30",
@@ -110,7 +110,21 @@
       "7f0efef5-8777-5da2-b0b6-a4f0f898f518",
       "1db5bd3a-d68a-5e05-bd75-24109c8a22c7",
       "31ff76fc-781e-5d0d-a950-9212ace0295c",
-      "3d0ffb05-2f56-5510-bbbf-eb6bc5677f4a"
+      "3d0ffb05-2f56-5510-bbbf-eb6bc5677f4a",
+      "4c300080-b536-5dd5-a23a-7cc63a278b7f",
+      "3f5be6e8-6176-5b09-bb6f-b67ab474ec32",
+      "1f0e4b12-1a0b-5a64-8ccd-3e91a4983a24",
+      "6ee15328-5d7e-53d1-a209-7ae7be0c374d",
+      "34b5782f-8131-55a2-834b-596fddad5a13",
+      "c7db2f6b-c3d4-5a1b-931e-f01fcf7873da",
+      "112cb30f-c59a-5877-ba2b-ba45ec0e562d",
+      "d6771782-5d47-521c-9c01-333de09aef33",
+      "7e38b0fd-aac0-54de-8d9d-1d120487dbd2",
+      "017ba20a-aaa5-5022-85dd-8a6b1fc5cff7",
+      "f3808976-fd34-5183-8868-598f7398d892",
+      "cd7f6b40-483e-56cc-b8c5-c801a0654744",
+      "e2b05646-3ee9-59cb-83c8-84d966332f74",
+      "35cd8643-dd24-5864-8467-8fcf5dfa3d09"
     ],
     "url": "https://incidentdatabase.ai/rss.xml"
   },
@@ -139,7 +153,7 @@
     "url": "https://privacy.claude.com/"
   },
   "arxiv-cs-cl-clinical-llm": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "http://arxiv.org/abs/2605.05963v1",
       "http://arxiv.org/abs/2605.03476v1",
@@ -230,12 +244,43 @@
       "http://arxiv.org/abs/2606.04127v1",
       "http://arxiv.org/abs/2604.17114v1",
       "http://arxiv.org/abs/2604.19394v1",
-      "http://arxiv.org/abs/2604.20560v1"
+      "http://arxiv.org/abs/2604.20560v1",
+      "http://arxiv.org/abs/2606.08769v1",
+      "http://arxiv.org/abs/2606.09466v2",
+      "http://arxiv.org/abs/2606.09396v1",
+      "http://arxiv.org/abs/2606.08307v1",
+      "http://arxiv.org/abs/2606.09751v1",
+      "http://arxiv.org/abs/2606.12569v1",
+      "http://arxiv.org/abs/2606.10279v1",
+      "http://arxiv.org/abs/2606.09030v1",
+      "http://arxiv.org/abs/2606.08969v1",
+      "http://arxiv.org/abs/2606.11740v1",
+      "http://arxiv.org/abs/2606.13082v1",
+      "http://arxiv.org/abs/2606.08571v1",
+      "http://arxiv.org/abs/2606.09461v1",
+      "http://arxiv.org/abs/2606.14145v1",
+      "http://arxiv.org/abs/2606.13940v1",
+      "http://arxiv.org/abs/2606.09590v1",
+      "http://arxiv.org/abs/2606.13945v1",
+      "http://arxiv.org/abs/2606.10803v1",
+      "http://arxiv.org/abs/2606.08254v1",
+      "http://arxiv.org/abs/2606.14072v1",
+      "http://arxiv.org/abs/2606.12250v1",
+      "http://arxiv.org/abs/2606.13572v1",
+      "http://arxiv.org/abs/2606.08497v1",
+      "http://arxiv.org/abs/2606.14460v1",
+      "http://arxiv.org/abs/2606.09365v2",
+      "http://arxiv.org/abs/2606.08850v1",
+      "http://arxiv.org/abs/2606.12169v1",
+      "http://arxiv.org/abs/2606.10796v1",
+      "http://arxiv.org/abs/2606.12291v1",
+      "http://arxiv.org/abs/2606.08938v1",
+      "http://arxiv.org/abs/2606.14697v1"
     ],
     "url": "https://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare+OR+abs:patient%29+AND+%28abs:LLM+OR+abs:%22language+model%22+OR+abs:generation%29&sortBy=submittedDate&sortOrder=descending&max_results=30"
   },
   "arxiv-cs-cy-clinical-ai-ethics": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "http://arxiv.org/abs/2605.28680v1",
       "http://arxiv.org/abs/2605.12895v2",
@@ -279,7 +324,14 @@
       "http://arxiv.org/abs/2604.26959v1",
       "http://arxiv.org/abs/2603.21656v1",
       "http://arxiv.org/abs/2605.27628v1",
-      "http://arxiv.org/abs/2604.04604v1"
+      "http://arxiv.org/abs/2604.04604v1",
+      "http://arxiv.org/abs/2606.06253v1",
+      "http://arxiv.org/abs/2606.12423v1",
+      "http://arxiv.org/abs/2605.27628v2",
+      "http://arxiv.org/abs/2606.10158v1",
+      "http://arxiv.org/abs/2606.08442v1",
+      "http://arxiv.org/abs/2606.09789v1",
+      "http://arxiv.org/abs/2606.08413v1"
     ],
     "url": "https://export.arxiv.org/api/query?search_query=cat:cs.CY+AND+%28abs:clinical+OR+abs:medical+OR+abs:healthcare%29+AND+%28abs:AI+OR+abs:%22machine+learning%22%29&sortBy=submittedDate&sortOrder=descending&max_results=20"
   },
@@ -314,7 +366,7 @@
     "url": "https://www.bacb.com/newsletters/"
   },
   "behavior-analysis-in-practice": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "https://link.springer.com/10.1007/s40617-026-01185-x",
       "https://link.springer.com/10.1007/s40617-026-01179-9",
@@ -361,7 +413,8 @@
       "10.1007/s40617-026-01162-4",
       "https://link.springer.com/10.1007/s40617-026-01182-0",
       "10.1007/s40617-026-01171-3",
-      "https://link.springer.com/10.1007/s40617-026-01174-0"
+      "https://link.springer.com/10.1007/s40617-026-01174-0",
+      "10.1007/s40617-026-01196-8"
     ],
     "url": "https://link.springer.com/search.rss?facet-content-type=Article&facet-journal-id=40617&channel-name=Behavior+Analysis+in+Practice"
   },
@@ -396,14 +449,15 @@
     "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/clinical-decision-support-software"
   },
   "fedreg-hhs-hipaa": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "https://www.federalregister.gov/documents/2026/05/20/2026-10050/patient-protection-and-affordable-care-act-hhs-notice-of-benefit-and-payment-parameters-for-2027-and",
       "https://www.federalregister.gov/documents/2026/06/04/2026-11140/federal-independent-dispute-resolution-operations",
       "https://www.federalregister.gov/documents/2026/05/20/2026-10068/announcement-of-requirements-and-registration-for-ehignite-challenge",
       "https://www.federalregister.gov/documents/2026/05/15/2026-09747/agency-information-collection-activities-proposed-collection-comment-request",
       "https://www.federalregister.gov/documents/2026/06/03/2026-11094/medicaid-program-community-engagement-requirement-for-certain-individuals",
-      "https://www.federalregister.gov/documents/2026/05/13/2026-09479/excepted-fertility-benefits"
+      "https://www.federalregister.gov/documents/2026/05/13/2026-09479/excepted-fertility-benefits",
+      "https://www.federalregister.gov/documents/2026/06/10/2026-11602/hhs-request-for-comment-on-chronic-disease-of-addiction"
     ],
     "url": "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bagencies%5D%5B%5D=health-and-human-services-department&conditions%5Bterm%5D=HIPAA&per_page=20&order=newest"
   },
@@ -419,7 +473,7 @@
     "url": "https://www.huschblackwell.com/2024-ai-state-law-tracker"
   },
   "jmir-ai": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "https://ai.jmir.org/2026/1/e81103",
       "https://ai.jmir.org/2026/1/e81149",
@@ -457,12 +511,15 @@
       "https://ai.jmir.org/2026/1/e81028",
       "https://ai.jmir.org/2026/1/e78764",
       "https://ai.jmir.org/2026/1/e74198",
-      "https://ai.jmir.org/2026/1/e83413"
+      "https://ai.jmir.org/2026/1/e83413",
+      "https://ai.jmir.org/2026/1/e86220",
+      "https://ai.jmir.org/2026/1/e88356",
+      "https://ai.jmir.org/2026/1/e83927"
     ],
     "url": "https://ai.jmir.org/feed"
   },
   "nature-digital-medicine": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "https://www.nature.com/articles/s41746-026-02670-x",
       "https://www.nature.com/articles/s41746-026-02661-y",
@@ -503,7 +560,18 @@
       "https://www.nature.com/articles/s41746-026-02831-y",
       "https://www.nature.com/articles/s41746-026-02713-3",
       "https://www.nature.com/articles/s41746-026-02817-w",
-      "https://www.nature.com/articles/s41746-026-02660-z"
+      "https://www.nature.com/articles/s41746-026-02660-z",
+      "https://www.nature.com/articles/s41746-026-02911-z",
+      "https://www.nature.com/articles/s41746-026-02678-3",
+      "https://www.nature.com/articles/s41746-026-02881-2",
+      "https://www.nature.com/articles/s41746-026-02868-z",
+      "https://www.nature.com/articles/s41746-026-02738-8",
+      "https://www.nature.com/articles/s41746-026-02886-x",
+      "https://www.nature.com/articles/s41746-026-02795-z",
+      "https://www.nature.com/articles/s41746-026-02869-y",
+      "https://www.nature.com/articles/s41746-026-02903-z",
+      "https://www.nature.com/articles/s41746-026-02883-0",
+      "https://www.nature.com/articles/s41746-026-02875-0"
     ],
     "url": "https://www.nature.com/npjdigitalmed.rss"
   },
@@ -525,7 +593,7 @@
     "url": "https://www.healthit.gov/topic/laws-regulation-and-policy/health-data-technology-and-interoperability-certification-program"
   },
   "perspectives-on-behavior-science": {
-    "last_checked": "2026-06-08T01:44:29.744613+00:00",
+    "last_checked": "2026-06-15T14:21:18.194710+00:00",
     "seen_ids": [
       "https://link.springer.com/10.1007/s40614-025-00481-1",
       "10.1007/s40614-026-00493-5",
@@ -569,7 +637,8 @@
       "10.1007/s40614-026-00495-3",
       "10.1007/s40614-026-00496-2",
       "https://link.springer.com/10.1007/s40614-025-00492-y",
-      "https://link.springer.com/10.1007/s40614-026-00496-2"
+      "https://link.springer.com/10.1007/s40614-026-00496-2",
+      "10.1007/s40614-026-00506-3"
     ],
     "url": "https://link.springer.com/search.rss?facet-content-type=Article&facet-journal-id=40614&channel-name=Perspectives+on+Behavior+Science"
   },
