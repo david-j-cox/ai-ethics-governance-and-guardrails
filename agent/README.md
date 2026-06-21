@@ -10,8 +10,8 @@ This is "eat your own dog food": the site warns that AI-generated content needs 
 2. It loads source definitions from `sources/*.yaml`.
 3. For each source: fetch, hash, compare to last-known hash in `state.json`.
 4. For changed sources: prompt an LLM to summarize the change and propose markdown edits to the relevant `docs/` page.
-5. Open a single PR with all proposed edits, labeled `agent`, with a checklist body.
-6. The maintainer reviews, edits, and merges (or closes).
+5. Open one PR per proposed edit (`agent/edit-*`, labeled `agent` + `proposed-edit`) so each can be accepted or declined on its own. Separately, open an always-mergeable "bookkeeping" PR that only updates `state.json`.
+6. The maintainer skims the executive summary in the run email/issue, then merges the edit PRs to accept, closes them to decline, or pushes to a branch to modify.
 
 ## Status
 
@@ -24,7 +24,7 @@ Two secrets are required in the repo's GitHub Actions configuration (Settings �
 - `ANTHROPIC_API_KEY`: an Anthropic API key. The agent uses Claude Opus 4.7 with adaptive thinking and prompt caching. Most weeks no source has changed, so no LLM calls are made; weeks with changes typically use a few thousand input tokens per changed source.
 - `GITHUB_TOKEN`: provided automatically by Actions; no manual setup required. The repo's workflow permissions must allow read/write and PR creation (Settings → Actions → General → Workflow permissions).
 
-No other configuration is needed. The agent commits to a fresh branch (`agent/source-update-YYYY-MM-DD-HHMM`), pushes, and opens a single PR labeled `agent` and `source-monitor`.
+No other configuration is needed. The agent commits state bookkeeping to a fresh branch (`agent/source-update-YYYY-MM-DD-HHMM`) and opens each proposed doc edit as its own `agent/edit-*` PR. It never auto-merges.
 
 ## Local dry run
 
@@ -38,7 +38,7 @@ Without `ANTHROPIC_API_KEY` set, the agent will still fetch and update `state.js
 
 ## What the agent does on each run
 
-The agent runs two independent pipelines per run. They share the fetch/state primitives but produce separate PRs so the maintainer can review them differently.
+The agent runs three pipelines per run (source watch, research digest, research-derived edits). They share the fetch/state primitives. State bookkeeping is committed in its own always-mergeable PR; every proposed doc edit gets its own `agent/edit-*` PR so the maintainer can accept or decline each independently. The run email/issue opens with an executive summary listing the proposed edits (with PR links), anything needing human attention, and the notable research items.
 
 ### Pipeline A: source watch (`html` and `link-check` sources)
 
@@ -48,8 +48,8 @@ For inertial reference material, regulatory guidance, and provider documentation
 2. Compare hash to `state.json`. Unchanged sources are no-ops; only update the last-checked timestamp.
 3. For changed `html` sources, call Claude Opus 4.7 once per changed source. The system prompt is cached; each affected page is a separately-cached content block.
 4. Claude returns structured JSON: a 2-3 sentence summary plus a list of `replace` / `append` / `no-edit` patches.
-5. Apply patches where the `find` string is unambiguous; ambiguous or missing matches go in the PR body for human attention.
-6. If anything changed, commit to a fresh `agent/source-update-*` branch and open one PR labeled `agent` + `source-monitor`.
+5. Apply patches where the `find` string is unambiguous; ambiguous or missing matches are reported under "Needs your attention" for human follow-up.
+6. Commit state bookkeeping to a fresh `agent/source-update-*` branch (PR labeled `agent` + `source-monitor`), and open each applied patch as its own `agent/edit-*` PR (labeled `agent` + `proposed-edit`).
 
 ### Pipeline B: research digest (`feed` sources)
 
@@ -64,7 +64,7 @@ For research, incidents, and capability announcements. Reads RSS/Atom feeds and 
 
 ### Both pipelines
 
-- Update `state.json` (content hashes for watch sources, seen_ids for feeds) on every successful fetch, including for unchanged sources. The state file is committed as part of whichever PR (or both) is opened.
+- Update `state.json` (content hashes for watch sources, seen_ids for feeds) on every successful fetch, including for unchanged sources. The state file is committed only in the bookkeeping PR(s), never bundled with a proposed edit — so declining an edit never strands the bookkeeping and the monitor won't re-flag the same source next week.
 - Fetch failures are logged and skipped, not fatal. Next run retries from the same baseline.
 - A clean week with no changes and no new entries opens zero PRs.
 - Neither pipeline ever auto-merges. The maintainer is the human in the loop.

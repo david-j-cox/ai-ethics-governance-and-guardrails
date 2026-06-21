@@ -2,10 +2,11 @@ name: Source monitor (weekly)
 
 on:
   schedule:
-    # Sundays 9pm ET. GitHub crons are UTC-only and don't follow DST.
-    # 01:00 UTC Monday = 9pm ET Sunday during DST, 8pm ET outside DST.
-    # We accept the one-hour DST drift as the cost of a single cron line.
-    - cron: "0 1 * * 1"
+    # Sunday early afternoon ET, leaving the rest of Sunday to review.
+    # GitHub crons are UTC-only and don't follow DST, so a single line
+    # drifts by an hour across the year: 17:00 UTC Sunday = 1pm ET during
+    # DST, 12pm (noon) ET outside DST. We accept that one-hour drift.
+    - cron: "0 17 * * 0"
   workflow_dispatch:
 
 permissions:
