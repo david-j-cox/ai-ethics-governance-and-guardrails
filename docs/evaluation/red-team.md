@@ -70,3 +70,5 @@ See [Agentic systems](../architecture/agents.md). If the architecture is a plann
 ## Don't conflate red-teaming with QA
 
 QA verifies the system does what it's supposed to do. Red-teaming finds the things you didn't think to specify. Both are necessary; they are not substitutes.
+
+A 2026 JMIR AI study ([red teaming a patient-facing clinical AI platform](https://ai.jmir.org/2026/1/e101912)) reports that a two-phase red team at an academic health system, using 48 clinicians across six scenarios in phase 1 and 27 clinicians across eight targeted high-risk scenarios in phase 2, cut failure rates on high-risk prompts after the vendor remediated against aggregated phase 1 findings. Two structural details are worth copying: a strict firewall between the evaluating team and the platform developer, and sharing only aggregated, deidentified findings between phases. If your red team sits inside the same org as the builders, replicate that separation deliberately.
